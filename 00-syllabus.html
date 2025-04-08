@@ -63,7 +63,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = '00-syllabus';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="References" href="99-references.html" />
+    <link rel="next" title="Introduction to Data Engineering" href="notes/01-intro-data-engineering.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -163,7 +163,16 @@
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to data engineering</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notes/01-intro-data-engineering.html">Introduction to Data Engineering</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Exploratory data analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notes/02-exploratory-data-analysis-class.html">Exploratory Data Analysis</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="99-references.html">References</a></li>
 </ul>
@@ -212,6 +221,37 @@
         <div class="header-article-item">
 
 <div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/mosesyhc/de300-2025sp-class/blob/gh-pages/_sources/00-syllabus.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
 
 
 
@@ -343,7 +383,7 @@
 <h1>DATA_ENG 300: Data Engineering Studio<a class="headerlink" href="#data-eng-300-data-engineering-studio" title="Link to this heading">#</a></h1>
 <section id="syllabus">
 <h2>Syllabus<a class="headerlink" href="#syllabus" title="Link to this heading">#</a></h2>
-<p>Updated March 31, 2025
+<p>Updated April 3, 2025
 Moses Chan</p>
 <p><strong>Instructor:</strong> Moses Chan, <code class="docutils literal notranslate"><span class="pre">moses.chan&#64;northwestern.edu</span></code></p>
 <p><strong>TA:</strong> Dinglin Xia</p>
@@ -401,7 +441,7 @@ Moses Chan</p>
 <td><p></p></td>
 <td><p>10 %</p></td>
 </tr>
-<tr class="row-odd"><td><p><em>Note:</em> The lowest lab will be dropped.</p></td>
+<tr class="row-odd"><td><p><em>Note:</em> The lowest lab and in-class participation will be dropped.</p></td>
 <td><p></p></td>
 <td><p></p></td>
 </tr>
@@ -430,8 +470,9 @@ Moses Chan</p>
 <section id="homework-and-lab">
 <h3>Homework and Lab<a class="headerlink" href="#homework-and-lab" title="Link to this heading">#</a></h3>
 <p>You are encouraged to work together on labs and homeworks, but each student must turn in their own assignment and not an exact duplicate of someone else’s solutions. The lowest lab will be dropped in calculating your final grades.</p>
-<p>Any late assignment will receive a 20% penalty.  No late assignment is accepted after 72 hours of the due date.</p>
-<p>Lab attendance is not mandatory, although you are encouraged to do the labs during the assigned lab time so the teaching team can help you.</p>
+<p>A late assignment will receive a 20% penalty.</p>
+<p>No late homework is accepted after 72 hours of the due date.  At the end of the quarter, penalty to one late homework will be dropped.</p>
+<p>Lab attendance is not mandatory, although you are encouraged to do the labs during the assigned lab time so the teaching team can help you.  No late lab is accepted after 24 hours of the due date.  The lowest lab will be dropped.</p>
 </section>
 <section id="communications">
 <h3>Communications<a class="headerlink" href="#communications" title="Link to this heading">#</a></h3>
@@ -441,7 +482,7 @@ Moses Chan</p>
 </section>
 <section id="regrade-policy">
 <h3>Regrade Policy<a class="headerlink" href="#regrade-policy" title="Link to this heading">#</a></h3>
-<p>In a case where you believe your assignment or exam is misgraded, submit a regrade request via <a class="reference external" href="https://docs.google.com/forms/d/e/1FAIpQLSeVj5nwtsS1ZfT92zqHW8eUTdaH12JHhMNCWEistqW8xMaLJA/viewform?usp=sharing">https://docs.google.com/forms/d/e/1FAIpQLSeVj5nwtsS1ZfT92zqHW8eUTdaH12JHhMNCWEistqW8xMaLJA/viewform?usp=sharing</a>.</p>
+<p>In a case where you believe your assignment or exam is misgraded, submit a regrade request via <a class="reference external" href="https://docs.google.com/forms/d/e/1FAIpQLSeVj5nwtsS1ZfT92zqHW8eUTdaH12JHhMNCWEistqW8xMaLJA/viewform?usp=sharing">Google Form</a>.</p>
 <p>Please observe the following instructions when submitting your request:</p>
 <ul class="simple">
 <li><p>Please be polite and professional. Mistakes happen, and we will make every effort to ensure everyone gets the grade they earned.</p></li>
@@ -507,6 +548,10 @@ Moses Chan</p>
 </section>
 <div class="toctree-wrapper compound">
 </div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
 </section>
 
     <script type="text/x-thebe-config">
@@ -540,11 +585,11 @@ Moses Chan</p>
                   
 <div class="prev-next-area">
     <a class="right-next"
-       href="99-references.html"
+       href="notes/01-intro-data-engineering.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">References</p>
+        <p class="prev-next-title">Introduction to Data Engineering</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
