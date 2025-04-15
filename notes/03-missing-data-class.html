@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -174,6 +174,7 @@
 
 
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Handling missing data</a></li>
+
 
 
 </ul>
@@ -374,6 +375,7 @@
 </li>
 </ul>
 </li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-imputation-of-tips">(Exercise) Imputation of tips</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#some-useful-additional-resources">Some useful additional resources</a></li>
 </ul>
@@ -649,14 +651,25 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># retrieving each imputed dataset (recall that M in MICE means multiple)</span>
-
-<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_datasets</span><span class="p">):</span>
-    <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">titanic_mf</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">k</span><span class="p">)[</span><span class="s1">&#39;age&#39;</span><span class="p">],</span> <span class="n">binwidth</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;probability&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
-
-<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">titanic</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">],</span> <span class="n">binwidth</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;probability&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;purple&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:d}</span><span class="s1"> realizations of imputed age&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num_datasets</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># code for plotting mice completed dataset</span>
+<span class="k">def</span> <span class="nf">plot_hist</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">completed_titanic</span><span class="p">,</span> <span class="n">original_titanic</span><span class="p">,</span> <span class="n">num_plot</span><span class="p">):</span>
+    <span class="n">num_datasets</span> <span class="o">=</span> <span class="n">kernel</span><span class="o">.</span><span class="n">num_datasets</span>
+    <span class="n">num_plot</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">num_datasets</span><span class="p">,</span> <span class="n">num_plot</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_plot</span><span class="p">):</span>  <span class="c1"># 1, 2, 3, num_datasets</span>
+        <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">completed_titanic</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">k</span><span class="p">)[</span><span class="s1">&#39;age&#39;</span><span class="p">],</span> <span class="n">binwidth</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;probability&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;imputed sample&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    
+    <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">original_titanic</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">],</span> <span class="n">binwidth</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;probability&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;purple&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;unimputed&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+    
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:d}</span><span class="s1"> realizations of imputed age&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num_plot</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -720,6 +733,43 @@ One particular algorithm that has garnered considerable interest is the Alternat
 <p>The bi-convexity leads to an alternating algorithm (for a full <span class="math notranslate nohighlight">\(R\)</span>).  But the missing locations do introduce nuances to the algorithm.  See details in Theorem 3.1 of Hastie et al. (2015).</p>
 </section>
 </section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="exercise-imputation-of-tips">
+<h1>(Exercise) Imputation of tips<a class="headerlink" href="#exercise-imputation-of-tips" title="Link to this heading">#</a></h1>
+<p>Consider the <code class="docutils literal notranslate"><span class="pre">taxis</span></code> dataset from seaborn, practice the imputation methods on the <code class="docutils literal notranslate"><span class="pre">tip</span></code> column for the dataset <code class="docutils literal notranslate"><span class="pre">subtaxi_missing</span></code>, given below:</p>
+<ol class="arabic simple">
+<li><p>Complete the data using<br />
+i. mean simple imputation,
+ii. median simple imputation,
+iii. k-nearest neighbor, and
+iv. predictive mean matching.</p></li>
+<li><p>Compute the root mean squared error for each imputation method (because you know the truth).  Which one is the best in this case?</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="n">taxi</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s1">&#39;taxis&#39;</span><span class="p">)</span>
+<span class="n">taxi</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+<span class="n">subtaxi</span> <span class="o">=</span> <span class="n">taxi</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s1">&#39;passengers&#39;</span><span class="p">,</span> <span class="s1">&#39;distance&#39;</span><span class="p">,</span> <span class="s1">&#39;fare&#39;</span><span class="p">,</span> <span class="s1">&#39;tip&#39;</span><span class="p">,</span> <span class="s1">&#39;tolls&#39;</span><span class="p">,</span> <span class="s1">&#39;total&#39;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="c1"># create missingness</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">mask1</span> <span class="o">=</span> 
+<span class="n">mask2</span> <span class="o">=</span> 
+
+<span class="n">subtaxi_missing</span> <span class="o">=</span> <span class="n">subtaxi</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">subtaxi_missing</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask1</span> <span class="o">&amp;</span> <span class="n">mask2</span><span class="p">,</span> <span class="s1">&#39;tip&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="references">
 <h1>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h1>
@@ -820,6 +870,7 @@ One particular algorithm that has garnered considerable interest is the Alternat
 </li>
 </ul>
 </li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-imputation-of-tips">(Exercise) Imputation of tips</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#some-useful-additional-resources">Some useful additional resources</a></li>
 </ul>
