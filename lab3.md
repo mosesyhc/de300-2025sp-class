@@ -24,17 +24,15 @@ A Docker container solves all that by packaging:
 - ✅ Your libraries and dependencies
 - ✅ Your file system and working directory
 
-### Docker Container vs Virtual Machine (VM)
-
-| Feature         | Docker Container                     | Virtual Machine                      |
-|----------------|---------------------------------------|--------------------------------------|
-| Boot Time      | Seconds                               | Minutes                              |
-| Resource Usage | Light (shares host kernel)            | Heavy (includes full OS)             |
-| Size           | MBs                                   | GBs                                  |
-| Isolation      | Process-level                         | Full OS-level                        |
-| Portability    | High                                  | Medium                               |
-| Use Case       | Microservices, CI/CD, reproducible dev envs | Legacy systems, full OS sandboxing |
-
+### 🧱 Docker Container vs 🖥️ Virtual Machine (VM)
+Feature | Docker Container | Virtual Machine
+----|----|----
+Boot Time | Seconds ⏱️ | Minutes 🕒
+Resource Usage | Light (shares host kernel) | Heavy (includes full OS)
+Size | MBs | GBs
+Isolation | Process-level | Full OS-level
+Portability | High | Medium
+Use Case | Microservices, CI/CD, reproducible dev envs | Legacy systems, full OS sandboxing
 
 
 ## 0. Installing Docker
@@ -46,31 +44,9 @@ A Docker container solves all that by packaging:
    docker --version
    ```
 
-| Command                                | Description                             |
-|----------------------------------------|-----------------------------------------|
-| `docker ps`                            | List running containers                 |
-| `docker ps -a`                         | List all containers (even stopped)      |
-| `docker images`                        | List all images                         |
-| `docker build -t <name> .`             | Build an image from Dockerfile          |
-| `docker run <image>`                  | Run a container                         |
-| `docker run -it <image> /bin/bash`     | Run with interactive terminal           |
-| `docker exec -it <container_id> bash`  | Run a command in running container      |
-| `docker stop <container_id>`           | Stop a container                        |
-| `docker rm <container_id>`             | Remove a container                      |
-| `docker rmi <image_id>`                | Remove an image                         |
 
 
 ## 1. 🐍 Creating a Docker Container to Run a Python Script
-
-### 1.0 Create a dedicated directory (Optional)
-
-In order to keep this process more clean, we recommend you make a new directory.
-
-```bash
-mkdir docker-tutorial
-cd docker-tutorial
-```
-
 ### 1.1 Create a Python Script
 `script.py`
 
@@ -108,13 +84,11 @@ docker run csv-generator
 This will create the CSV file inside the container only, not on your host (i.e., your own computer).
 
 ### 1.5 🧠 Image vs Container
-| Docker Image                  | Docker Container         |
-|------------------------------|---------------------------|
-| Blueprint                    | Live instance             |
-| Read-only                    | Read/write                |
-| Doesn’t run on its own       | Runs processes            |
-| Can create many containers   | Based on one image        |
-
+Docker Image | Docker Container
+Blueprint | Live instance
+Read-only | Read/write
+Doesn’t run on its own | Runs processes
+Can create many containers | Based on one image
 
 ## 2. 📁 Sync Files Between Container and Host Machine
 ### 2.1 Create a Directory on Host
@@ -140,6 +114,13 @@ print("CSV file created and saved to volume!")
 ```{bash}
 docker run -v $(pwd)/csv-output:/app/output csv-generator
 ```
+
+If you are using 🪟 Windows Powershell
+```{bash}
+docker run -v ${PWD}\csv-output:/app/output csv-generator
+```
+⚠️ Make sure the paths are absolute and use backslashes (`\`) in CMD or PowerShell (or forward slashes `/` with WSL/git bash).
+
 
 ## 3. 🌟 Other Useful Concepts and Tips
 ### 3.1: Debug/Explore Inside a Container
@@ -184,24 +165,13 @@ sudo apt update
 sudo apt install git
 ```
 
-
-On Amazon Linux (e.g., EC2):
-```{bash}
-sudo yum update
-sudo yum install git
-```
-
 ### 🔑 Part 2: SSH Key Authentication (for GitHub)
 #### ✅ 2.1 Generate SSH Key (on local or EC2)
 ```{bash}
 ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 ```
 
-Accept default file location `(~/.ssh/id_rsa)`, preferrably don't set a passcode.
-The next step is to copy your ssh key into your clipboard so that you can input it into github.
-
-`pbcopy` is a command on macOS systems to copy a text into the clipboard. Linux has a similar command, however, we want to copy to the clipboard of our computer, not the ec2.
-
+Accept default file location `(~/.ssh/id_rsa)`, then:
 ```{bash}
 pbcopy < ~/.ssh/id_rsa.pub   # macOS
 cat ~/.ssh/id_rsa.pub        # for manual copy (Linux)
@@ -227,7 +197,7 @@ mkdir lab3
 ```
 Then copy paste the Dockerfile and script.py to the lab3 folder.
 
-### 🔄 Part 5: Track, Commit, and Push Changes
+### ⬆️ Part 5: Track, Commit, and Push Changes
 ```{bash}
 git status                 # Check what changed
 git add .                  # Stage all changes
@@ -235,10 +205,73 @@ git commit -m "created lab3 folder"   # Commit with message
 git push origin main       # Push to GitHub (replace 'main' if needed)
 ```
 
-### Part 6: Pull Changes from GitHub from EC2
+### 🔁 Part 6: Pull Changes from GitHub from EC2
 ssh to your EC2, and enter the following commands on your EC2 instance
 ```{bash}
 git pull origin main
 ```
 
-### Part 7: Modified FILFI
+### 🔁 Part 7: Modified Files 
+Change the output file name in script.py
+```{python}
+df.to_csv('output/ec2_output.csv', index=False)
+```
+
+You can use nano to edit the file, if not installed:
+```{bash}
+apt update
+apt install nano
+```
+Then
+```{bash}
+nano script.py
+```
+press `ctrl + o`, then `Enter` to confirm the file name and changes, then press `ctrl + x` to close the editor.
+
+Then build the images through Dockerfike, and run the container again
+```{bash}
+docker build -t csv-generator .
+docker run -v $(pwd)/csv-output:/app/output csv-generator
+```
+Then `ec2_output.csv` will appear in `csv-output` folder.
+
+### ⬆️ Part 8: Push Changes from EC2
+```{bash}
+git status                 # Check what changed
+git add .                  # Stage all changes
+git commit -m "created ec2_output.csv"   # Commit with message
+git push origin main       # Push to GitHub
+```
+
+## Some useful commands for Docker and Git
+### Docker
+Command | Description
+----|-----
+docker ps | List running containers
+docker ps -a | List all containers (even stopped)
+docker images | List all images
+docker build -t <name> . | Build an image from Dockerfile
+docker run <image> | Run a container
+docker run -it <image> /bin/bash | Run with interactive terminal
+docker exec -it <container_id> bash | Run a command in running container
+docker stop <container_id> | Stop a container
+docker rm <container_id> | Remove a container
+docker rmi <image_id> | Remove an image
+
+### Git
+Action | Command
+----|----
+See changes | git status
+Add specific file | git add filename.py
+View history | git log
+Undo last commit (keep changes) | git reset --soft HEAD~1
+Undo file changes | git checkout filename.py
+Create new branch | git checkout -b feature-branch
+Switch branch | git checkout main
+Merge branch | git merge feature-branch
+
+### Lab Assignment
+Before the Apr 27, your repository `FirstName_LastName_DE300` should include a 'Lab3' folder including
+- Dockerfile
+- script.py
+- 'csv-output' folder containing output csv file
