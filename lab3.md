@@ -24,14 +24,17 @@ A Docker container solves all that by packaging:
 - ✅ Your libraries and dependencies
 - ✅ Your file system and working directory
 
-### 🧱 Docker Container vs 🖥️ Virtual Machine (VM)
-Feature | Docker Container | Virtual Machine
-Boot Time | Seconds ⏱️ | Minutes 🕒
-Resource Usage | Light (shares host kernel) | Heavy (includes full OS)
-Size | MBs | GBs
-Isolation | Process-level | Full OS-level
-Portability | High | Medium
-Use Case | Microservices, CI/CD, reproducible dev envs | Legacy systems, full OS sandboxing
+### Docker Container vs Virtual Machine (VM)
+
+| Feature         | Docker Container                     | Virtual Machine                      |
+|----------------|---------------------------------------|--------------------------------------|
+| Boot Time      | Seconds                               | Minutes                              |
+| Resource Usage | Light (shares host kernel)            | Heavy (includes full OS)             |
+| Size           | MBs                                   | GBs                                  |
+| Isolation      | Process-level                         | Full OS-level                        |
+| Portability    | High                                  | Medium                               |
+| Use Case       | Microservices, CI/CD, reproducible dev envs | Legacy systems, full OS sandboxing |
+
 
 
 ## 0. Installing Docker
@@ -43,19 +46,31 @@ Use Case | Microservices, CI/CD, reproducible dev envs | Legacy systems, full OS
    docker --version
    ```
 
-Command | Description
-docker ps | List running containers
-docker ps -a | List all containers (even stopped)
-docker images | List all images
-docker build -t <name> . | Build an image from Dockerfile
-docker run <image> | Run a container
-docker run -it <image> /bin/bash | Run with interactive terminal
-docker exec -it <container_id> bash | Run a command in running container
-docker stop <container_id> | Stop a container
-docker rm <container_id> | Remove a container
-docker rmi <image_id> | Remove an image
+| Command                                | Description                             |
+|----------------------------------------|-----------------------------------------|
+| `docker ps`                            | List running containers                 |
+| `docker ps -a`                         | List all containers (even stopped)      |
+| `docker images`                        | List all images                         |
+| `docker build -t <name> .`             | Build an image from Dockerfile          |
+| `docker run <image>`                  | Run a container                         |
+| `docker run -it <image> /bin/bash`     | Run with interactive terminal           |
+| `docker exec -it <container_id> bash`  | Run a command in running container      |
+| `docker stop <container_id>`           | Stop a container                        |
+| `docker rm <container_id>`             | Remove a container                      |
+| `docker rmi <image_id>`                | Remove an image                         |
+
 
 ## 1. 🐍 Creating a Docker Container to Run a Python Script
+
+### 1.0 Create a dedicated directory (Optional)
+
+In order to keep this process more clean, we recommend you make a new directory.
+
+```bash
+mkdir docker-tutorial
+cd docker-tutorial
+```
+
 ### 1.1 Create a Python Script
 `script.py`
 
@@ -93,11 +108,13 @@ docker run csv-generator
 This will create the CSV file inside the container only, not on your host (i.e., your own computer).
 
 ### 1.5 🧠 Image vs Container
-Docker Image | Docker Container
-Blueprint | Live instance
-Read-only | Read/write
-Doesn’t run on its own | Runs processes
-Can create many containers | Based on one image
+| Docker Image                  | Docker Container         |
+|------------------------------|---------------------------|
+| Blueprint                    | Live instance             |
+| Read-only                    | Read/write                |
+| Doesn’t run on its own       | Runs processes            |
+| Can create many containers   | Based on one image        |
+
 
 ## 2. 📁 Sync Files Between Container and Host Machine
 ### 2.1 Create a Directory on Host
@@ -167,13 +184,24 @@ sudo apt update
 sudo apt install git
 ```
 
+
+On Amazon Linux (e.g., EC2):
+```{bash}
+sudo yum update
+sudo yum install git
+```
+
 ### 🔑 Part 2: SSH Key Authentication (for GitHub)
 #### ✅ 2.1 Generate SSH Key (on local or EC2)
 ```{bash}
 ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 ```
 
-Accept default file location `(~/.ssh/id_rsa)`, then:
+Accept default file location `(~/.ssh/id_rsa)`, preferrably don't set a passcode.
+The next step is to copy your ssh key into your clipboard so that you can input it into github.
+
+`pbcopy` is a command on macOS systems to copy a text into the clipboard. Linux has a similar command, however, we want to copy to the clipboard of our computer, not the ec2.
+
 ```{bash}
 pbcopy < ~/.ssh/id_rsa.pub   # macOS
 cat ~/.ssh/id_rsa.pub        # for manual copy (Linux)
