@@ -65,7 +65,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'notes/03-missing-data-class';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Homework Schedule (as of April 3, 2025)" href="../homework/homework-schedule.html" />
+    <link rel="next" title="Standard code communications" href="04-standard-code-comm.html" />
     <link rel="prev" title="04/08/2025 Week 2" href="02-exploratory-data-analysis-class.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -177,6 +177,7 @@
 
 
 
+<li class="toctree-l1"><a class="reference internal" href="04-standard-code-comm.html">Standard code communications</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix</span></p>
 <ul class="nav bd-sidenav">
@@ -369,6 +370,7 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#removing-data">Removing data</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-imputation-with-a-constant">Simple imputation with a constant</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-imputation">Multiple imputation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#predictive-mean-matiching-mice-last-figure-in-the-gas-consumption-example">Predictive mean matiching (MICE) [Last figure in the gas consumption example]</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#k-nearest-neighbor"><span class="math notranslate nohighlight">\(k\)</span> Nearest Neighbor</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-completion">Matrix completion</a></li>
 </ul>
@@ -541,11 +543,55 @@
 <p>We have covered some basic ways how to identify missingness in the EDA module.  Here is one other option with the help of <code class="docutils literal notranslate"><span class="pre">missingno</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># !pip install missingno  # in case you need to install the package</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># !pip install missingno  </span>
+<span class="c1"># in case you need to install the package</span>
 
-<span class="c1"># visualization of available/missing data</span>
+<span class="n">titanic</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 891 entries, 0 to 890
+Data columns (total 15 columns):
+ #   Column       Non-Null Count  Dtype   
+---  ------       --------------  -----   
+ 0   survived     891 non-null    int64   
+ 1   pclass       891 non-null    int64   
+ 2   sex          891 non-null    object  
+ 3   age          714 non-null    float64 
+ 4   sibsp        891 non-null    int64   
+ 5   parch        891 non-null    int64   
+ 6   fare         891 non-null    float64 
+ 7   embarked     889 non-null    object  
+ 8   class        891 non-null    category
+ 9   who          891 non-null    object  
+ 10  adult_male   891 non-null    bool    
+ 11  deck         203 non-null    category
+ 12  embark_town  889 non-null    object  
+ 13  alive        891 non-null    object  
+ 14  alone        891 non-null    bool    
+dtypes: bool(2), category(2), float64(2), int64(4), object(5)
+memory usage: 80.7+ KB
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">missingno</span> <span class="k">as</span> <span class="nn">msno</span>
+<span class="c1"># visualization of available/missing data</span>
+
+<span class="c1">#msno.bar(titanic)</span>
+<span class="n">msno</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">titanic</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: &gt;
+</pre></div>
+</div>
+<img alt="../_images/fd2f83d9a61b0bb990e0dc15ee4b5f44ff0228fdde00509b3fcb3ac220cd17f6.png" src="../_images/fd2f83d9a61b0bb990e0dc15ee4b5f44ff0228fdde00509b3fcb3ac220cd17f6.png" />
 </div>
 </div>
 </section>
@@ -555,7 +601,34 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># retaining titanic dataset with complete data</span>
-<span class="n">titanic_agecomp</span> <span class="o">=</span> <span class="o">...</span>
+<span class="n">titanic_agecomp</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;any&#39;</span><span class="p">)</span>
+<span class="n">titanic_agecomp</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+Index: 714 entries, 0 to 890
+Data columns (total 15 columns):
+ #   Column       Non-Null Count  Dtype   
+---  ------       --------------  -----   
+ 0   survived     714 non-null    int64   
+ 1   pclass       714 non-null    int64   
+ 2   sex          714 non-null    object  
+ 3   age          714 non-null    float64 
+ 4   sibsp        714 non-null    int64   
+ 5   parch        714 non-null    int64   
+ 6   fare         714 non-null    float64 
+ 7   embarked     712 non-null    object  
+ 8   class        714 non-null    category
+ 9   who          714 non-null    object  
+ 10  adult_male   714 non-null    bool    
+ 11  deck         184 non-null    category
+ 12  embark_town  712 non-null    object  
+ 13  alive        714 non-null    object  
+ 14  alone        714 non-null    bool    
+dtypes: bool(2), category(2), float64(2), int64(4), object(5)
+memory usage: 70.2+ KB
 </pre></div>
 </div>
 </div>
@@ -563,14 +636,232 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># comparing the correlation with / without missing data</span>
-<span class="n">corr</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
-<span class="n">corr_agecomp</span> <span class="o">=</span> <span class="n">titanic_agecomp</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+<span class="n">corr</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="s1">&#39;number&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+<span class="n">corr_agecomp</span> <span class="o">=</span> <span class="n">titanic_agecomp</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="s1">&#39;number&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
 
 <span class="c1"># changes in correlation matrix with / without age missingness</span>
 <span class="n">corr</span> <span class="o">-</span> <span class="n">corr_agecomp</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>survived</th>
+      <th>pclass</th>
+      <th>age</th>
+      <th>sibsp</th>
+      <th>parch</th>
+      <th>fare</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>survived</th>
+      <td>0.000</td>
+      <td>0.021</td>
+      <td>0.0</td>
+      <td>-0.018</td>
+      <td>-0.012</td>
+      <td>-0.011</td>
+    </tr>
+    <tr>
+      <th>pclass</th>
+      <td>0.021</td>
+      <td>0.000</td>
+      <td>0.0</td>
+      <td>0.016</td>
+      <td>-0.007</td>
+      <td>0.005</td>
+    </tr>
+    <tr>
+      <th>age</th>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.0</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>sibsp</th>
+      <td>-0.018</td>
+      <td>0.016</td>
+      <td>0.0</td>
+      <td>0.000</td>
+      <td>0.031</td>
+      <td>0.021</td>
+    </tr>
+    <tr>
+      <th>parch</th>
+      <td>-0.012</td>
+      <td>-0.007</td>
+      <td>0.0</td>
+      <td>0.031</td>
+      <td>0.000</td>
+      <td>0.011</td>
+    </tr>
+    <tr>
+      <th>fare</th>
+      <td>-0.011</td>
+      <td>0.005</td>
+      <td>0.0</td>
+      <td>0.021</td>
+      <td>0.011</td>
+      <td>0.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># one other possibility (that includes boolean)</span>
+<span class="n">corr</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">numeric_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">corr_agecomp</span> <span class="o">=</span> <span class="n">titanic_agecomp</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">numeric_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># changes in correlation matrix with / without age missingness</span>
+<span class="n">corr</span> <span class="o">-</span> <span class="n">corr_agecomp</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>survived</th>
+      <th>pclass</th>
+      <th>age</th>
+      <th>sibsp</th>
+      <th>parch</th>
+      <th>fare</th>
+      <th>adult_male</th>
+      <th>alone</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>survived</th>
+      <td>0.000</td>
+      <td>0.021</td>
+      <td>0.0</td>
+      <td>-0.018</td>
+      <td>-0.012</td>
+      <td>-0.011</td>
+      <td>-0.004</td>
+      <td>-0.007</td>
+    </tr>
+    <tr>
+      <th>pclass</th>
+      <td>0.021</td>
+      <td>0.000</td>
+      <td>0.0</td>
+      <td>0.016</td>
+      <td>-0.007</td>
+      <td>0.005</td>
+      <td>-0.005</td>
+      <td>-0.011</td>
+    </tr>
+    <tr>
+      <th>age</th>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.0</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>sibsp</th>
+      <td>-0.018</td>
+      <td>0.016</td>
+      <td>0.0</td>
+      <td>0.000</td>
+      <td>0.031</td>
+      <td>0.021</td>
+      <td>0.057</td>
+      <td>0.045</td>
+    </tr>
+    <tr>
+      <th>parch</th>
+      <td>-0.012</td>
+      <td>-0.007</td>
+      <td>0.0</td>
+      <td>0.031</td>
+      <td>0.000</td>
+      <td>0.011</td>
+      <td>0.013</td>
+      <td>-0.006</td>
+    </tr>
+    <tr>
+      <th>fare</th>
+      <td>-0.011</td>
+      <td>0.005</td>
+      <td>0.0</td>
+      <td>0.021</td>
+      <td>0.011</td>
+      <td>0.000</td>
+      <td>-0.002</td>
+      <td>-0.012</td>
+    </tr>
+    <tr>
+      <th>adult_male</th>
+      <td>-0.004</td>
+      <td>-0.005</td>
+      <td>0.0</td>
+      <td>0.057</td>
+      <td>0.013</td>
+      <td>-0.002</td>
+      <td>0.000</td>
+      <td>0.008</td>
+    </tr>
+    <tr>
+      <th>alone</th>
+      <td>-0.007</td>
+      <td>-0.011</td>
+      <td>0.0</td>
+      <td>0.045</td>
+      <td>-0.006</td>
+      <td>-0.012</td>
+      <td>0.008</td>
+      <td>0.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 </section>
 <section id="simple-imputation-with-a-constant">
@@ -578,7 +869,8 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># !pip install scikit-learn</span>
-<span class="n">constant_imputer</span> <span class="o">=</span> 
+<span class="kn">from</span> <span class="nn">sklearn.impute</span> <span class="kn">import</span> <span class="n">SimpleImputer</span>
+<span class="n">constant_imputer</span> <span class="o">=</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;constant&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -588,10 +880,19 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic_constant</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
 <span class="c1"># set constant, completing data</span>
-
+<span class="n">constant_imputer</span><span class="o">.</span><span class="n">fill_value</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">titanic_constant</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">constant_imputer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">titanic_constant</span><span class="p">[[</span><span class="s1">&#39;age&#39;</span><span class="p">]])</span>
 <span class="c1"># visualize completed data</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">titanic_constant</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;age&#39;, ylabel=&#39;Count&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/c8c594238bb25fce9b7d26f76042f0f122e053c16d90c95b9f8ceedac9f24daf.png" src="../_images/c8c594238bb25fce9b7d26f76042f0f122e053c16d90c95b9f8ceedac9f24daf.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -599,8 +900,10 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic_median</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
 <span class="c1"># example with median, admitting only numeric columns</span>
-
+<span class="n">median_imputer</span> <span class="o">=</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;median&#39;</span><span class="p">)</span>
+<span class="n">titanic_median</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">median_imputer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">titanic_median</span><span class="p">[[</span><span class="s1">&#39;age&#39;</span><span class="p">]])</span>
 <span class="c1"># another equivalent option </span>
+<span class="c1"># titanic_median[&#39;age&#39;] = titanic_median[&#39;age&#39;].fillna(titanic_median[&#39;age&#39;].median())</span>
 
 <span class="c1"># visualize completed data</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -610,6 +913,12 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x3ffcec50&gt;
+</pre></div>
+</div>
+<img alt="../_images/7e24bf14a2cb531694e494ea42124610cd3a92cbc597f06d63a3ac03d48552de.png" src="../_images/7e24bf14a2cb531694e494ea42124610cd3a92cbc597f06d63a3ac03d48552de.png" />
+</div>
 </div>
 </section>
 <section id="multiple-imputation">
@@ -618,8 +927,14 @@
 <p>One method is the multiple imputation by chained equations, or MICE. <code class="docutils literal notranslate"><span class="pre">miceforest</span></code> uses LightBGM as its training algorithm for MICE.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># !pip install miceforest</span>
-<span class="kn">import</span> <span class="nn">miceforest</span> <span class="k">as</span> <span class="nn">mf</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># !pip install -U miceforest plotnine</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">miceforest</span> <span class="k">as</span> <span class="nn">mf</span>
 
 <span class="c1"># miceforest requires a real matrix. </span>
 <span class="c1"># For illustrative purposes, we only use the numerical columns.</span>
@@ -627,7 +942,10 @@
 <span class="c1"># set up a kernel to produce `num_datasets` imputed datasets</span>
 <span class="n">num_datasets</span> <span class="o">=</span> <span class="mi">4</span>
 <span class="n">kernel</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">ImputationKernel</span><span class="p">(</span>
-    
+    <span class="n">data</span><span class="o">=</span><span class="n">titanic</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="s1">&#39;number&#39;</span><span class="p">),</span>
+    <span class="n">num_datasets</span><span class="o">=</span><span class="n">num_datasets</span><span class="p">,</span>
+    <span class="n">save_all_iterations_data</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -636,6 +954,7 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># run the MICE algorithm</span>
+<span class="n">kernel</span><span class="o">.</span><span class="n">mice</span><span class="p">(</span><span class="n">iterations</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -643,14 +962,22 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># retrieve completed data</span>
-<span class="n">titanic_mf</span> <span class="o">=</span> 
+<span class="n">titanic_mf</span> <span class="o">=</span> <span class="n">kernel</span><span class="o">.</span><span class="n">complete_data</span>
+<span class="n">titanic_mf</span>
 </pre></div>
 </div>
 </div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># retrieving each imputed dataset (recall that M in MICE means multiple)</span>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;bound method ImputedData.complete_data of 
+              Class: ImputationKernel
+            Datasets: 4
+          Iterations: 5
+        Data Samples: 891
+        Data Columns: 6
+   Imputed Variables: 1
+   Modeled Variables: 1
+All Iterations Saved: False
+        &gt;
 </pre></div>
 </div>
 </div>
@@ -676,6 +1003,21 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># retrieving each imputed dataset (recall that M in MICE means multiple)</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">plot_hist</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span>
+          <span class="n">completed_titanic</span><span class="o">=</span><span class="n">titanic_mf</span><span class="p">,</span>
+          <span class="n">original_titanic</span><span class="o">=</span><span class="n">titanic</span><span class="p">,</span>
+          <span class="n">num_plot</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/b2c160db009ef45ffd69c4e3e01ecfcbd5779d30835be6dae832c4b14c1e1951.png" src="../_images/b2c160db009ef45ffd69c4e3e01ecfcbd5779d30835be6dae832c4b14c1e1951.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># comparing the original and imputed dataset</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 
@@ -689,6 +1031,36 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/9cdce552153c1cac0626494c053201c38e84293231856a15bd2e4626bad74daa.png" src="../_images/9cdce552153c1cac0626494c053201c38e84293231856a15bd2e4626bad74daa.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kernel</span><span class="o">.</span><span class="n">mice</span><span class="p">(</span><span class="n">iterations</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">kernel</span><span class="o">.</span><span class="n">plot_imputed_distributions</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<a class="reference internal image-reference" href="../_images/7946c046b1e4ad82c18cb357bcba9ba6570dcf73b20f1aeae4ab6f01fb0f14ab.png"><img alt="../_images/7946c046b1e4ad82c18cb357bcba9ba6570dcf73b20f1aeae4ab6f01fb0f14ab.png" src="../_images/7946c046b1e4ad82c18cb357bcba9ba6570dcf73b20f1aeae4ab6f01fb0f14ab.png" style="width: 640px; height: 480px;" /></a>
+</div>
+</div>
+</section>
+<section id="predictive-mean-matiching-mice-last-figure-in-the-gas-consumption-example">
+<h3>Predictive mean matiching (MICE) [Last figure in the gas consumption example]<a class="headerlink" href="#predictive-mean-matiching-mice-last-figure-in-the-gas-consumption-example" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kernel_pmm</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">ImputationKernel</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">titanic</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="s1">&#39;number&#39;</span><span class="p">),</span>
+    <span class="n">num_datasets</span><span class="o">=</span><span class="n">num_datasets</span><span class="p">,</span>
+    <span class="n">mean_match_candidates</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">save_all_iterations_data</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="k-nearest-neighbor">
@@ -697,8 +1069,11 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic_knn</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="s1">&#39;number&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
+<span class="kn">from</span> <span class="nn">sklearn.impute</span> <span class="kn">import</span> <span class="n">KNNImputer</span>
 <span class="c1"># set up imputing for KNN</span>
-<span class="n">knn_imputer</span> <span class="o">=</span> 
+<span class="n">knn_imputer</span> <span class="o">=</span> <span class="n">KNNImputer</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">titanic_knn_impute</span> <span class="o">=</span> <span class="n">knn_imputer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">titanic_knn</span><span class="p">)</span>
+<span class="n">titanic_knn_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">titanic_knn_impute</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">titanic_knn</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
 
 <span class="c1"># visualize completed data</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -707,6 +1082,12 @@
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x44fd0890&gt;
+</pre></div>
+</div>
+<img alt="../_images/7e1672aa8ca39325687f5da7199affe427b760ea5343e5d0266fe582d9a05b73.png" src="../_images/7e1672aa8ca39325687f5da7199affe427b760ea5343e5d0266fe582d9a05b73.png" />
 </div>
 </div>
 </section>
@@ -755,19 +1136,57 @@ iv. predictive mean matching.</p></li>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 6433 entries, 0 to 6432
+Data columns (total 14 columns):
+ #   Column           Non-Null Count  Dtype         
+---  ------           --------------  -----         
+ 0   pickup           6433 non-null   datetime64[ns]
+ 1   dropoff          6433 non-null   datetime64[ns]
+ 2   passengers       6433 non-null   int64         
+ 3   distance         6433 non-null   float64       
+ 4   fare             6433 non-null   float64       
+ 5   tip              6433 non-null   float64       
+ 6   tolls            6433 non-null   float64       
+ 7   total            6433 non-null   float64       
+ 8   color            6433 non-null   object        
+ 9   payment          6389 non-null   object        
+ 10  pickup_zone      6407 non-null   object        
+ 11  dropoff_zone     6388 non-null   object        
+ 12  pickup_borough   6407 non-null   object        
+ 13  dropoff_borough  6388 non-null   object        
+dtypes: datetime64[ns](2), float64(5), int64(1), object(6)
+memory usage: 703.7+ KB
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="c1"># create missingness</span>
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
-<span class="n">mask1</span> <span class="o">=</span> 
-<span class="n">mask2</span> <span class="o">=</span> 
+<span class="n">mask1</span> <span class="o">=</span> <span class="n">subtaxi</span><span class="o">.</span><span class="n">total</span> <span class="o">&gt;</span> <span class="mi">25</span>
+<span class="n">mask2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">subtaxi</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mf">0.7</span>
 
 <span class="n">subtaxi_missing</span> <span class="o">=</span> <span class="n">subtaxi</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">subtaxi_missing</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask1</span> <span class="o">&amp;</span> <span class="n">mask2</span><span class="p">,</span> <span class="s1">&#39;tip&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
 </pre></div>
 </div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">msno</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">subtaxi_missing</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;total&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: &gt;
+</pre></div>
+</div>
+<img alt="../_images/5049f318fe7634dc59c3ab22c44956fb0e0c0e861833b40cef127db30a4e24d2.png" src="../_images/5049f318fe7634dc59c3ab22c44956fb0e0c0e861833b40cef127db30a4e24d2.png" />
 </div>
 </div>
 </section>
@@ -828,11 +1247,11 @@ iv. predictive mean matching.</p></li>
       </div>
     </a>
     <a class="right-next"
-       href="../homework/homework-schedule.html"
+       href="04-standard-code-comm.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Homework Schedule (as of April 3, 2025)</p>
+        <p class="prev-next-title">Standard code communications</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -864,6 +1283,7 @@ iv. predictive mean matching.</p></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#removing-data">Removing data</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-imputation-with-a-constant">Simple imputation with a constant</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-imputation">Multiple imputation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#predictive-mean-matiching-mice-last-figure-in-the-gas-consumption-example">Predictive mean matiching (MICE) [Last figure in the gas consumption example]</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#k-nearest-neighbor"><span class="math notranslate nohighlight">\(k\)</span> Nearest Neighbor</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-completion">Matrix completion</a></li>
 </ul>
