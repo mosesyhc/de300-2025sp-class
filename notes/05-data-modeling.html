@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Homework Schedule (as of April 3, 2025) &#8212; DATA_ENG 300 Data Engineering Studio</title>
+    <title>Data Modeling &#8212; DATA_ENG 300 Data Engineering Studio</title>
   
   
   
@@ -60,11 +60,11 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'homework/homework-schedule';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notes/05-data-modeling';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="References" href="../99-references.html" />
-    <link rel="prev" title="(EX) Electronic medical record (as a SQL refresher)" href="../notes/05b-ex-electronic-medical-record-class.html" />
+    <link rel="next" title="(EX) Electronic medical record (as a SQL refresher)" href="05b-ex-electronic-medical-record-class.html" />
+    <link rel="prev" title="Standard code communications" href="04-standard-code-comm.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -164,30 +164,30 @@
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to data engineering</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../notes/01-intro-data-engineering.html">Introduction to Data Engineering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-intro-data-engineering.html">Introduction to Data Engineering</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Exploratory data analysis</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../notes/02-exploratory-data-analysis-class.html">04/08/2025 Week 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-exploratory-data-analysis-class.html">04/08/2025 Week 2</a></li>
 
 
-<li class="toctree-l1"><a class="reference internal" href="../notes/03-missing-data-class.html">Handling missing data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-missing-data-class.html">Handling missing data</a></li>
 
 
 
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Version control, containerization</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../notes/04-standard-code-comm.html">Standard code communications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-standard-code-comm.html">Standard code communications</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Data modeling</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../notes/05-data-modeling.html">Data Modeling</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../notes/05b-ex-electronic-medical-record-class.html">(EX) Electronic medical record (as a SQL refresher)</a></li>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Data Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05b-ex-electronic-medical-record-class.html">(EX) Electronic medical record (as a SQL refresher)</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Homework Schedule (as of April 3, 2025)</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../homework/homework-schedule.html">Homework Schedule (as of April 3, 2025)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../99-references.html">References</a></li>
 </ul>
 
@@ -248,7 +248,7 @@
       
       
       
-      <li><a href="https://colab.research.google.com/github/mosesyhc/de300-2025sp-class/blob/gh-pages/_sources/homework/homework-schedule.ipynb" target="_blank"
+      <li><a href="https://colab.research.google.com/github/mosesyhc/de300-2025sp-class/blob/gh-pages/_sources/notes/05-data-modeling.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch on Colab"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -279,7 +279,7 @@
       
       
       
-      <li><a href="../_sources/homework/homework-schedule.ipynb" target="_blank"
+      <li><a href="../_sources/notes/05-data-modeling.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -342,7 +342,9 @@
 <button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
 </button>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -353,11 +355,21 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Homework Schedule (as of April 3, 2025)</h1>
+    <h1>Data Modeling</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-of-data-engineering-scenarios">Examples of data engineering scenarios</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#database-and-query">Database and query</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference">Reference</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -367,43 +379,104 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="homework-schedule-as-of-april-3-2025">
-<h1>Homework Schedule (as of April 3, 2025)<a class="headerlink" href="#homework-schedule-as-of-april-3-2025" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="data-modeling">
+<h1>Data Modeling<a class="headerlink" href="#data-modeling" title="Link to this heading">#</a></h1>
+<p>This set of notes introduces concepts of data modeling and the associated tools.</p>
+<blockquote>
+<div><p><em>Data modeling</em> is about how you model the data, or how you perceive the data structure as presented in the real world.</p>
+</div></blockquote>
+<section id="examples-of-data-engineering-scenarios">
+<h2>Examples of data engineering scenarios<a class="headerlink" href="#examples-of-data-engineering-scenarios" title="Link to this heading">#</a></h2>
+<p><em>Online transaction processing (OLTP)</em></p>
+<ul class="simple">
+<li><p>Any transactions, literally</p></li>
+<li><p>e.g., retail, banking, texting</p></li>
+</ul>
+<p><em>Online analytics processing (OLAP)</em></p>
+<ul class="simple">
+<li><p>Interactive analytics <em>queries</em></p></li>
+<li><p>i.e., retrieve and aggregate data for information (or insight)</p></li>
+<li><p>e.g., aircraft inventory analysis</p></li>
+</ul>
+<p><em>Change data capture</em></p>
+<ul class="simple">
+<li><p>Snapshots, differential updates</p></li>
+<li><p>e.g., appointment scheduling</p></li>
+</ul>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="head"><p>Homework</p></th>
-<th class="head text-center"><p>Release Date</p></th>
-<th class="head text-center"><p>Due Date</p></th>
+<tr class="row-odd"><th class="head text-center"><p><img alt="mend-cheps" src="../_images/mend-cheps.png" /></p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>1. Exploratory Data Analysis</p></td>
-<td class="text-center"><p>Apr 8</p></td>
-<td class="text-center"><p>Apr 17</p></td>
-</tr>
-<tr class="row-odd"><td><p>2. SQL/NoSQL, ETL</p></td>
-<td class="text-center"><p>Apr 22</p></td>
-<td class="text-center"><p>May 1</p></td>
-</tr>
-<tr class="row-even"><td><p>Proposal due</p></td>
-<td class="text-center"><p></p></td>
-<td class="text-center"><p>May 2</p></td>
-</tr>
-<tr class="row-odd"><td><p>3. ETL/ELT, Spark</p></td>
-<td class="text-center"><p>May 6</p></td>
-<td class="text-center"><p>May 15</p></td>
-</tr>
-<tr class="row-even"><td><p>4. Automation of Data Pipelines</p></td>
-<td class="text-center"><p>May 15</p></td>
-<td class="text-center"><p>May 22</p></td>
-</tr>
-<tr class="row-odd"><td><p>Project presentation/report due</p></td>
-<td class="text-center"><p></p></td>
-<td class="text-center"><p>Jun 11</p></td>
+<tr class="row-even"><td class="text-center"><p>Example of average provider availability into the future.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
+<p><em>Logs</em></p>
+<ul class="simple">
+<li><p>binary logs</p></li>
+<li><p>JSON</p></li>
+<li><p>Plain-text</p></li>
+</ul>
+</section>
+<section id="database-and-query">
+<h2>Database and query<a class="headerlink" href="#database-and-query" title="Link to this heading">#</a></h2>
+<p><em>Database</em> refers to a data storage system and a query engine.</p>
+<p><em>Query</em> refers to the avenue to retrieve and act on data.</p>
+<p>Query commands generally include:</p>
+<ul class="simple">
+<li><p>Data Definition Language, e.g., <code class="docutils literal notranslate"><span class="pre">CREATE</span></code>, <code class="docutils literal notranslate"><span class="pre">UPDATE</span></code>, <code class="docutils literal notranslate"><span class="pre">DROP</span></code></p></li>
+</ul>
+<ul class="simple">
+<li><p>Data Manipulation Language, e.g., <code class="docutils literal notranslate"><span class="pre">SELECT</span></code>, <code class="docutils literal notranslate"><span class="pre">INSERT</span></code>, <code class="docutils literal notranslate"><span class="pre">UPDATE</span></code>, <code class="docutils literal notranslate"><span class="pre">DELETE</span></code>, <code class="docutils literal notranslate"><span class="pre">COPY</span></code>, <code class="docutils literal notranslate"><span class="pre">MERGE</span></code></p></li>
+</ul>
+<ul class="simple">
+<li><p>Data Control Language, e.g., <code class="docutils literal notranslate"><span class="pre">GRANT</span></code>, <code class="docutils literal notranslate"><span class="pre">DENY</span></code>, <code class="docutils literal notranslate"><span class="pre">REVOKE</span></code></p></li>
+</ul>
+<ul class="simple">
+<li><p>Transaction Control Language, e.g., <code class="docutils literal notranslate"><span class="pre">COMMIT</span></code>, <code class="docutils literal notranslate"><span class="pre">ROLLBACK</span></code></p></li>
+</ul>
+<p>Several notes about queries:</p>
+<ul class="simple">
+<li><p>Complex queries incur higher computations.</p></li>
+</ul>
+<blockquote>
+<div><p><em>What is the goal?</em> Are we looking for a particular flight? or are we finding the number of flights that are delayed due to weather within date A and date B?</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Avoid large number of scans when possible.  Prepartitioning or pruning may be beneficial.</p></li>
+</ul>
+<ul class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">EXPLAIN</span></code> on a query for analysis.</p></li>
+</ul>
+<ul class="simple">
+<li><p>Use common table expressions, e.g.,</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">WITH</span>
+  <span class="n">cte1</span> <span class="n">AS</span> <span class="p">(</span><span class="n">SELECT</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="n">FROM</span> <span class="n">table1</span><span class="p">),</span>
+  <span class="n">cte2</span> <span class="n">AS</span> <span class="p">(</span><span class="n">SELECT</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span> <span class="n">FROM</span> <span class="n">table2</span><span class="p">)</span>
+<span class="n">SELECT</span> <span class="n">b</span><span class="p">,</span> <span class="n">d</span> <span class="n">FROM</span> <span class="n">cte1</span> <span class="n">JOIN</span> <span class="n">cte2</span>
+<span class="n">WHERE</span> <span class="n">cte1</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">cte2</span><span class="o">.</span><span class="n">c</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p><img alt="cte-express" src="../_images/cte-expression.jpg" /></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>Example of a CTE usage</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="reference">
+<h2>Reference<a class="headerlink" href="#reference" title="Link to this heading">#</a></h2>
+<p>Chapters 5 and 8 of Fundamentals of Data Engineering (Reis, 2022) are excellent resources on this topic.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -419,7 +492,7 @@
         },
         kernelOptions: {
             name: "python3",
-            path: "./homework"
+            path: "./notes"
         },
         predefinedOutput: true
     }
@@ -437,20 +510,20 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../notes/05b-ex-electronic-medical-record-class.html"
+       href="04-standard-code-comm.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">(EX) Electronic medical record (as a SQL refresher)</p>
+        <p class="prev-next-title">Standard code communications</p>
       </div>
     </a>
     <a class="right-next"
-       href="../99-references.html"
+       href="05b-ex-electronic-medical-record-class.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">References</p>
+        <p class="prev-next-title">(EX) Electronic medical record (as a SQL refresher)</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -460,6 +533,24 @@
             </div>
             
             
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-of-data-engineering-scenarios">Examples of data engineering scenarios</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#database-and-query">Database and query</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference">Reference</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
