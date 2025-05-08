@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Data Modeling &#8212; DATA_ENG 300 Data Engineering Studio</title>
+    <title>Distributed (cloud) computing &#8212; DATA_ENG 300 Data Engineering Studio</title>
   
   
   
@@ -57,11 +57,11 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'notes/05-data-modeling';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notes/08-hadoop-spark';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="(EX) Electronic medical record (as a SQL refresher)" href="05b-ex-electronic-medical-record-class.html" />
-    <link rel="prev" title="Standard code communications" href="04-standard-code-comm.html" />
+    <link rel="next" title="Resilient distributed datasets" href="09-rdd-class.html" />
+    <link rel="prev" title="Wide-column database system (Apache Cassandra)" href="07-cassandra.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -190,8 +190,8 @@
 <li class="toctree-l1"><a class="reference internal" href="04-standard-code-comm.html">Standard code communications</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Data modeling</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Data Modeling</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="05-data-modeling.html">Data Modeling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05b-ex-electronic-medical-record-class.html">(EX) Electronic medical record (as a SQL refresher)</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="06-intro-to-nosql.html">Introduction to NoSQL databases</a></li>
@@ -200,8 +200,8 @@
 
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Distributed (cloud) computing</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="08-hadoop-spark.html">Distributed (cloud) computing</a></li>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Distributed (cloud) computing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="09-rdd-class.html">Resilient distributed datasets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="09a-word-count-schema.html">Word count example (in pictures)</a></li>
 </ul>
@@ -264,7 +264,7 @@
       
       
       
-      <li><a href="https://colab.research.google.com/github/mosesyhc/de300-2025sp-class/blob/gh-pages/_sources/notes/05-data-modeling.ipynb" target="_blank"
+      <li><a href="https://colab.research.google.com/github/mosesyhc/de300-2025sp-class/blob/gh-pages/_sources/notes/08-hadoop-spark.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch onColab"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -295,7 +295,7 @@
       
       
       
-      <li><a href="../_sources/notes/05-data-modeling.ipynb" target="_blank"
+      <li><a href="../_sources/notes/08-hadoop-spark.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -379,7 +379,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Data Modeling</h1>
+    <h1>Distributed (cloud) computing</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -389,12 +389,15 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-of-data-engineering-scenarios">Examples of data engineering scenarios</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#database-and-query">Database and query</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#income-scenario">Income scenario</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#separation-of-compute-from-storage">Separation of compute from storage</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hybridization-of-separation-and-colocation">Hybridization of separation and colocation</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference">Reference</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hadoop">Hadoop</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spark">Spark</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-of-hadoop-and-spark-adapted-from-aws-summary">Comparison of Hadoop and Spark (<em>adapted from</em> AWS summary)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mapreduce-dean-and-ghemawat-2008">MapReduce (Dean and Ghemawat, 2008)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 </ul>
             </nav>
         </div>
@@ -406,106 +409,161 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="data-modeling">
-<h1>Data Modeling<a class="headerlink" href="#data-modeling" title="Link to this heading">#</a></h1>
-<p>This set of notes introduces concepts of data modeling and the associated tools.</p>
-<blockquote>
-<div><p><em>Data modeling</em> is about how you model the data, or how you perceive the data structure as presented in the real world.</p>
-</div></blockquote>
-<section id="examples-of-data-engineering-scenarios">
-<h2>Examples of data engineering scenarios<a class="headerlink" href="#examples-of-data-engineering-scenarios" title="Link to this heading">#</a></h2>
-<p><em>Online transaction processing (OLTP)</em></p>
+  <section class="tex2jax_ignore mathjax_ignore" id="distributed-cloud-computing">
+<h1>Distributed (cloud) computing<a class="headerlink" href="#distributed-cloud-computing" title="Link to this heading">#</a></h1>
+<p>This document covers the key elements for modern distributed computing, specifically a word on Hadoop and Spark.</p>
+<section id="separation-of-compute-from-storage">
+<h2>Separation of compute from storage<a class="headerlink" href="#separation-of-compute-from-storage" title="Link to this heading">#</a></h2>
+<p>Traditionally compute and storage are colocated, e.g.,</p>
 <ul class="simple">
-<li><p>Any transactions, literally</p></li>
-<li><p>e.g., retail, banking, texting</p></li>
+<li><p>a transactional database leverages its low-latency disk reads and high bandwidth.</p></li>
+<li><p>even for distributed jobs, a <em>map</em> job locates the location of data and runs the <em>map</em> local to the data.</p></li>
 </ul>
-<p><em>Online analytics processing (OLAP)</em></p>
+<p>Then why separate compute and storage?</p>
 <ul class="simple">
-<li><p>Interactive analytics <em>queries</em></p></li>
-<li><p>i.e., retrieve and aggregate data for information (or insight)</p></li>
-<li><p>e.g., aircraft inventory analysis</p></li>
+<li><p>Availability of cloud computing and storage purchase</p>
+<ul>
+<li><p>Cost: It is cheap to buy and host a server than to rent <em>if the server is up 24/7</em>, minus <em>maintenance cost</em></p></li>
 </ul>
-<p><em>Change data capture</em></p>
+</li>
+</ul>
 <ul class="simple">
-<li><p>Snapshots, differential updates</p></li>
-<li><p>e.g., appointment scheduling</p></li>
+<li><p>Towards ephermerality: (what we have done so far) Spin up an instance, use, and stop when done.</p></li>
+</ul>
+<ul class="simple">
+<li><p>Towards scalability: If you only need to run this titan job once a month, only pay for the resources then.</p></li>
+</ul>
+<ul class="simple">
+<li><p>Data durability and availability</p>
+<ul>
+<li><p>Fault tolerance: Replication of data increases availability and mitgates a write operation that destroys data.</p></li>
+</ul>
+</li>
+</ul>
+<section id="hybridization-of-separation-and-colocation">
+<h3>Hybridization of separation and colocation<a class="headerlink" href="#hybridization-of-separation-and-colocation" title="Link to this heading">#</a></h3>
+<p>In reality, compute and storage are not either separated or colocated, e.g.,</p>
+<ul class="simple">
+<li><p>AWS elastic mapreduce (EMR) and S3</p></li>
+<li><p>Spark infrastructure dependence on RAM</p></li>
 </ul>
 <table class="table">
 <thead>
-<tr class="row-odd"><th class="head text-center"><p><img alt="mend-cheps" src="../_images/mend-cheps.png" /></p></th>
+<tr class="row-odd"><th class="head text-center"><p><img alt="hadoop-emr" src="../_images/hadoop-emr.png" /></p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-center"><p>Example of average provider availability into the future.</p></td>
-</tr>
-</tbody>
-</table>
-<p><em>Logs</em></p>
-<ul class="simple">
-<li><p>binary logs</p></li>
-<li><p>JSON</p></li>
-<li><p>Plain-text</p></li>
-</ul>
-</section>
-<section id="database-and-query">
-<h2>Database and query<a class="headerlink" href="#database-and-query" title="Link to this heading">#</a></h2>
-<p><em>Database</em> refers to a data storage system and a query engine.</p>
-<p><em>Query</em> refers to the avenue to retrieve and act on data.</p>
-<p>Query commands generally include:</p>
-<ul class="simple">
-<li><p>Data Definition Language, e.g., <code class="docutils literal notranslate"><span class="pre">CREATE</span></code>, <code class="docutils literal notranslate"><span class="pre">UPDATE</span></code>, <code class="docutils literal notranslate"><span class="pre">DROP</span></code></p></li>
-</ul>
-<ul class="simple">
-<li><p>Data Manipulation Language, e.g., <code class="docutils literal notranslate"><span class="pre">SELECT</span></code>, <code class="docutils literal notranslate"><span class="pre">INSERT</span></code>, <code class="docutils literal notranslate"><span class="pre">UPDATE</span></code>, <code class="docutils literal notranslate"><span class="pre">DELETE</span></code>, <code class="docutils literal notranslate"><span class="pre">COPY</span></code>, <code class="docutils literal notranslate"><span class="pre">MERGE</span></code></p></li>
-</ul>
-<ul class="simple">
-<li><p>Data Control Language, e.g., <code class="docutils literal notranslate"><span class="pre">GRANT</span></code>, <code class="docutils literal notranslate"><span class="pre">DENY</span></code>, <code class="docutils literal notranslate"><span class="pre">REVOKE</span></code></p></li>
-</ul>
-<ul class="simple">
-<li><p>Transaction Control Language, e.g., <code class="docutils literal notranslate"><span class="pre">COMMIT</span></code>, <code class="docutils literal notranslate"><span class="pre">ROLLBACK</span></code></p></li>
-</ul>
-<p>Several notes about queries:</p>
-<ul class="simple">
-<li><p>Complex queries incur higher computations.</p></li>
-</ul>
-<blockquote>
-<div><p><em>What is the goal?</em> Are we looking for a particular flight? or are we finding the number of flights that are delayed due to weather within date A and date B?</p>
-</div></blockquote>
-<ul class="simple">
-<li><p>Avoid large number of scans when possible.  Prepartitioning or pruning may be beneficial.</p></li>
-</ul>
-<ul class="simple">
-<li><p>Use <code class="docutils literal notranslate"><span class="pre">EXPLAIN</span></code> on a query for analysis.</p></li>
-</ul>
-<ul class="simple">
-<li><p>Use common table expressions, e.g.,</p></li>
-</ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">WITH</span>
-  <span class="n">cte1</span> <span class="n">AS</span> <span class="p">(</span><span class="n">SELECT</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="n">FROM</span> <span class="n">table1</span><span class="p">),</span>
-  <span class="n">cte2</span> <span class="n">AS</span> <span class="p">(</span><span class="n">SELECT</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span> <span class="n">FROM</span> <span class="n">table2</span><span class="p">)</span>
-<span class="n">SELECT</span> <span class="n">b</span><span class="p">,</span> <span class="n">d</span> <span class="n">FROM</span> <span class="n">cte1</span> <span class="n">JOIN</span> <span class="n">cte2</span>
-<span class="n">WHERE</span> <span class="n">cte1</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">cte2</span><span class="o">.</span><span class="n">c</span><span class="p">;</span>
-</pre></div>
-</div>
-<section id="income-scenario">
-<h3>Income scenario<a class="headerlink" href="#income-scenario" title="Link to this heading">#</a></h3>
-<p>Say we have a table called <code class="docutils literal notranslate"><span class="pre">information</span></code>, with two columns <code class="docutils literal notranslate"><span class="pre">department</span></code> and <code class="docutils literal notranslate"><span class="pre">salary</span></code>.<br />
-We would like to query for the average maximum income across department.</p>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head text-center"><p><img alt="cte-express" src="../_images/cte-expression.jpg" /></p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td class="text-center"><p>Example of a CTE usage</p></td>
+<tr class="row-even"><td class="text-center"><p>Instances as a processing cache in an ephemeral Hadoop cluster, Fig 6.7 from Reis (2022).</p></td>
 </tr>
 </tbody>
 </table>
 </section>
 </section>
-<section id="reference">
-<h2>Reference<a class="headerlink" href="#reference" title="Link to this heading">#</a></h2>
-<p>Chapters 5 and 8 of Fundamentals of Data Engineering (Reis, 2022) are excellent resources on this topic.</p>
+<section id="hadoop">
+<h2>Hadoop<a class="headerlink" href="#hadoop" title="Link to this heading">#</a></h2>
+<p>Developed in 2006 to process data with the <em>MapReduce programming model</em> (Dean and Ghemawat, 2008), with the “big data” processing idea.</p>
+<p>Turned into an Apache project in 2008.</p>
+<p>Main components of Apache Hadoop:</p>
+<ul class="simple">
+<li><p><em>Hadoop Distributed File System (HDFS)</em>: Manages large data sets running on commodity hardware (with data replication)</p></li>
+</ul>
+<ul class="simple">
+<li><p>Yet Another Resource Negotiator (YARN)</p></li>
+</ul>
+<ul class="simple">
+<li><p><em>Hadoop MapReduce</em>: Splits data into blocks, distributes across different nodes, then runs task on each block in parallel</p></li>
+</ul>
+<ul class="simple">
+<li><p>Hadoop Common (Hadoop Core): Common libraries and utilities</p></li>
+</ul>
+<p><em>Why Hadoop is not enough?</em></p>
+<ul class="simple">
+<li><p>Hadoop utilizes external storage.  Read/write latency is high.</p></li>
+<li><p>All codes must be restricted to a <code class="docutils literal notranslate"><span class="pre">map</span></code> and <code class="docutils literal notranslate"><span class="pre">reduce</span></code> constructs.</p></li>
+</ul>
+</section>
+<section id="spark">
+<h2>Spark<a class="headerlink" href="#spark" title="Link to this heading">#</a></h2>
+<p>Spark was originally created at UC Berkeley’s AMPLab in 2009 and open-sourced in 2010.</p>
+<p>Spark became an Apache project in 2013.</p>
+<p>Main components of Apache Spark:</p>
+<ul class="simple">
+<li><p>Spark Core: Execution engine for resource coordination</p></li>
+</ul>
+<ul class="simple">
+<li><p><em>Spark SQL</em></p></li>
+</ul>
+<ul class="simple">
+<li><p><em>Machine Learning Library (MLlib)</em></p></li>
+</ul>
+<ul class="simple">
+<li><p>Spark Streaming: Capability for processing streaming data</p></li>
+</ul>
+<ul class="simple">
+<li><p>GraphX: Capability for processing graph-based data</p></li>
+</ul>
+<p>Spark essentially tackles <em>only</em> where Hadoop does not perform well, by using an <em>in-memory</em> distributed computing engine.</p>
+<p>Spark:</p>
+<ul class="simple">
+<li><p>makes use of Resilient Distributed Dataset (RDD)</p></li>
+<li><p>employs dynamic RAM in processing</p></li>
+</ul>
+</section>
+<section id="comparison-of-hadoop-and-spark-adapted-from-aws-summary">
+<h2>Comparison of Hadoop and Spark (<em>adapted from</em> AWS summary)<a class="headerlink" href="#comparison-of-hadoop-and-spark-adapted-from-aws-summary" title="Link to this heading">#</a></h2>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p></p></th>
+<th class="head text-center"><p>Hadoop</p></th>
+<th class="head text-center"><p>Spark</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>Architecture</p></td>
+<td class="text-center"><p>stores and processes data on external storage</p></td>
+<td class="text-center"><p>stores and process data on internal memory</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>Performance</p></td>
+<td class="text-center"><p>processes data in batches</p></td>
+<td class="text-center"><p>processes data in real time</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>Cost</p></td>
+<td class="text-center"><p><em>relatively</em> affordable</p></td>
+<td class="text-center"><p>comparatively more expensive</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>Scalability</p></td>
+<td class="text-center"><p>easily scalable</p></td>
+<td class="text-center"><p>comparatively more challenging</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>Machine learning</p></td>
+<td class="text-center"><p>needs to integrate with external libraries</p></td>
+<td class="text-center"><p>built-in machine learning libraries</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>Security</p></td>
+<td class="text-center"><p>strong security features, storage encryption, and access control</p></td>
+<td class="text-center"><p>basic security</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mapreduce-dean-and-ghemawat-2008">
+<h2>MapReduce (Dean and Ghemawat, 2008)<a class="headerlink" href="#mapreduce-dean-and-ghemawat-2008" title="Link to this heading">#</a></h2>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p><img alt="mapreduce" src="../_images/mapreduce-trad.jpg" /></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>MapReduce schema from Tian et. al (2015).</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<p>Reis, J., &amp; Housley, M. (2022). <em>Fundamentals of data engineering</em>. O’Reilly Media, Inc.<br />
+Dean, J., &amp; Ghemawat, S. (2008). MapReduce: simplified data processing on large clusters. <em>Communications of the ACM</em>, 51(1), 107-113.<br />
+Tian, W., &amp; Yong, Z. (2015). Energy efficiency scheduling in hadoop, <em>Optim. Cloud Resour. Manag. Sched</em>, 179-204.</p>
 </section>
 </section>
 
@@ -540,20 +598,20 @@ We would like to query for the average maximum income across department.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="04-standard-code-comm.html"
+       href="07-cassandra.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Standard code communications</p>
+        <p class="prev-next-title">Wide-column database system (Apache Cassandra)</p>
       </div>
     </a>
     <a class="right-next"
-       href="05b-ex-electronic-medical-record-class.html"
+       href="09-rdd-class.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">(EX) Electronic medical record (as a SQL refresher)</p>
+        <p class="prev-next-title">Resilient distributed datasets</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -573,12 +631,15 @@ We would like to query for the average maximum income across department.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-of-data-engineering-scenarios">Examples of data engineering scenarios</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#database-and-query">Database and query</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#income-scenario">Income scenario</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#separation-of-compute-from-storage">Separation of compute from storage</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hybridization-of-separation-and-colocation">Hybridization of separation and colocation</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference">Reference</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hadoop">Hadoop</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spark">Spark</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-of-hadoop-and-spark-adapted-from-aws-summary">Comparison of Hadoop and Spark (<em>adapted from</em> AWS summary)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mapreduce-dean-and-ghemawat-2008">MapReduce (Dean and Ghemawat, 2008)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 </ul>
   </nav></div>
 

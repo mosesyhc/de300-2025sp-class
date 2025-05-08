@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Data Modeling &#8212; DATA_ENG 300 Data Engineering Studio</title>
+    <title>Project Specification &#8212; DATA_ENG 300 Data Engineering Studio</title>
   
   
   
@@ -57,11 +57,11 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'notes/05-data-modeling';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notes/a0-project-specification';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="(EX) Electronic medical record (as a SQL refresher)" href="05b-ex-electronic-medical-record-class.html" />
-    <link rel="prev" title="Standard code communications" href="04-standard-code-comm.html" />
+    <link rel="next" title="Homework Schedule (as of April 25, 2025)" href="../homework/homework-schedule.html" />
+    <link rel="prev" title="Word count example (in pictures)" href="09a-word-count-schema.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -190,8 +190,8 @@
 <li class="toctree-l1"><a class="reference internal" href="04-standard-code-comm.html">Standard code communications</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Data modeling</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Data Modeling</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="05-data-modeling.html">Data Modeling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05b-ex-electronic-medical-record-class.html">(EX) Electronic medical record (as a SQL refresher)</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="06-intro-to-nosql.html">Introduction to NoSQL databases</a></li>
@@ -206,8 +206,8 @@
 <li class="toctree-l1"><a class="reference internal" href="09a-word-count-schema.html">Word count example (in pictures)</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="a0-project-specification.html">Project Specification</a></li>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Project Specification</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../homework/homework-schedule.html">Homework Schedule (as of April 25, 2025)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../99-references.html">References</a></li>
 </ul>
@@ -264,7 +264,7 @@
       
       
       
-      <li><a href="https://colab.research.google.com/github/mosesyhc/de300-2025sp-class/blob/gh-pages/_sources/notes/05-data-modeling.ipynb" target="_blank"
+      <li><a href="https://colab.research.google.com/github/mosesyhc/de300-2025sp-class/blob/gh-pages/_sources/notes/a0-project-specification.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch onColab"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -295,7 +295,7 @@
       
       
       
-      <li><a href="../_sources/notes/05-data-modeling.ipynb" target="_blank"
+      <li><a href="../_sources/notes/a0-project-specification.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -379,7 +379,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Data Modeling</h1>
+    <h1>Project Specification</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -389,12 +389,13 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-of-data-engineering-scenarios">Examples of data engineering scenarios</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#database-and-query">Database and query</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#income-scenario">Income scenario</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#group-formation">Group formation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#project-grading">Project grading</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#project-proposal">Project proposal</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#guidelines-for-proposal">Guidelines for proposal</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference">Reference</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#potential-data-sources">Potential data sources</a></li>
 </ul>
             </nav>
         </div>
@@ -406,106 +407,120 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="data-modeling">
-<h1>Data Modeling<a class="headerlink" href="#data-modeling" title="Link to this heading">#</a></h1>
-<p>This set of notes introduces concepts of data modeling and the associated tools.</p>
-<blockquote>
-<div><p><em>Data modeling</em> is about how you model the data, or how you perceive the data structure as presented in the real world.</p>
-</div></blockquote>
-<section id="examples-of-data-engineering-scenarios">
-<h2>Examples of data engineering scenarios<a class="headerlink" href="#examples-of-data-engineering-scenarios" title="Link to this heading">#</a></h2>
-<p><em>Online transaction processing (OLTP)</em></p>
-<ul class="simple">
-<li><p>Any transactions, literally</p></li>
-<li><p>e.g., retail, banking, texting</p></li>
-</ul>
-<p><em>Online analytics processing (OLAP)</em></p>
-<ul class="simple">
-<li><p>Interactive analytics <em>queries</em></p></li>
-<li><p>i.e., retrieve and aggregate data for information (or insight)</p></li>
-<li><p>e.g., aircraft inventory analysis</p></li>
-</ul>
-<p><em>Change data capture</em></p>
-<ul class="simple">
-<li><p>Snapshots, differential updates</p></li>
-<li><p>e.g., appointment scheduling</p></li>
-</ul>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head text-center"><p><img alt="mend-cheps" src="../_images/mend-cheps.png" /></p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td class="text-center"><p>Example of average provider availability into the future.</p></td>
-</tr>
-</tbody>
-</table>
-<p><em>Logs</em></p>
-<ul class="simple">
-<li><p>binary logs</p></li>
-<li><p>JSON</p></li>
-<li><p>Plain-text</p></li>
-</ul>
+  <section class="tex2jax_ignore mathjax_ignore" id="project-specification">
+<h1>Project Specification<a class="headerlink" href="#project-specification" title="Link to this heading">#</a></h1>
+<section id="group-formation">
+<h2>Group formation<a class="headerlink" href="#group-formation" title="Link to this heading">#</a></h2>
+<p>The project group may consist of 3 to 4 students.</p>
 </section>
-<section id="database-and-query">
-<h2>Database and query<a class="headerlink" href="#database-and-query" title="Link to this heading">#</a></h2>
-<p><em>Database</em> refers to a data storage system and a query engine.</p>
-<p><em>Query</em> refers to the avenue to retrieve and act on data.</p>
-<p>Query commands generally include:</p>
-<ul class="simple">
-<li><p>Data Definition Language, e.g., <code class="docutils literal notranslate"><span class="pre">CREATE</span></code>, <code class="docutils literal notranslate"><span class="pre">UPDATE</span></code>, <code class="docutils literal notranslate"><span class="pre">DROP</span></code></p></li>
-</ul>
-<ul class="simple">
-<li><p>Data Manipulation Language, e.g., <code class="docutils literal notranslate"><span class="pre">SELECT</span></code>, <code class="docutils literal notranslate"><span class="pre">INSERT</span></code>, <code class="docutils literal notranslate"><span class="pre">UPDATE</span></code>, <code class="docutils literal notranslate"><span class="pre">DELETE</span></code>, <code class="docutils literal notranslate"><span class="pre">COPY</span></code>, <code class="docutils literal notranslate"><span class="pre">MERGE</span></code></p></li>
-</ul>
-<ul class="simple">
-<li><p>Data Control Language, e.g., <code class="docutils literal notranslate"><span class="pre">GRANT</span></code>, <code class="docutils literal notranslate"><span class="pre">DENY</span></code>, <code class="docutils literal notranslate"><span class="pre">REVOKE</span></code></p></li>
-</ul>
-<ul class="simple">
-<li><p>Transaction Control Language, e.g., <code class="docutils literal notranslate"><span class="pre">COMMIT</span></code>, <code class="docutils literal notranslate"><span class="pre">ROLLBACK</span></code></p></li>
-</ul>
-<p>Several notes about queries:</p>
-<ul class="simple">
-<li><p>Complex queries incur higher computations.</p></li>
-</ul>
-<blockquote>
-<div><p><em>What is the goal?</em> Are we looking for a particular flight? or are we finding the number of flights that are delayed due to weather within date A and date B?</p>
-</div></blockquote>
-<ul class="simple">
-<li><p>Avoid large number of scans when possible.  Prepartitioning or pruning may be beneficial.</p></li>
-</ul>
-<ul class="simple">
-<li><p>Use <code class="docutils literal notranslate"><span class="pre">EXPLAIN</span></code> on a query for analysis.</p></li>
-</ul>
-<ul class="simple">
-<li><p>Use common table expressions, e.g.,</p></li>
-</ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">WITH</span>
-  <span class="n">cte1</span> <span class="n">AS</span> <span class="p">(</span><span class="n">SELECT</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="n">FROM</span> <span class="n">table1</span><span class="p">),</span>
-  <span class="n">cte2</span> <span class="n">AS</span> <span class="p">(</span><span class="n">SELECT</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span> <span class="n">FROM</span> <span class="n">table2</span><span class="p">)</span>
-<span class="n">SELECT</span> <span class="n">b</span><span class="p">,</span> <span class="n">d</span> <span class="n">FROM</span> <span class="n">cte1</span> <span class="n">JOIN</span> <span class="n">cte2</span>
-<span class="n">WHERE</span> <span class="n">cte1</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">cte2</span><span class="o">.</span><span class="n">c</span><span class="p">;</span>
-</pre></div>
-</div>
-<section id="income-scenario">
-<h3>Income scenario<a class="headerlink" href="#income-scenario" title="Link to this heading">#</a></h3>
-<p>Say we have a table called <code class="docutils literal notranslate"><span class="pre">information</span></code>, with two columns <code class="docutils literal notranslate"><span class="pre">department</span></code> and <code class="docutils literal notranslate"><span class="pre">salary</span></code>.<br />
-We would like to query for the average maximum income across department.</p>
+<section id="project-grading">
+<h2>Project grading<a class="headerlink" href="#project-grading" title="Link to this heading">#</a></h2>
+<p>The project is worth 35% of the class grade, with the following details:</p>
 <table class="table">
 <thead>
-<tr class="row-odd"><th class="head text-center"><p><img alt="cte-express" src="../_images/cte-expression.jpg" /></p></th>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head text-center"><p></p></th>
+<th class="head text-center"><p></p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-center"><p>Example of a CTE usage</p></td>
+<tr class="row-even"><td><p></p></td>
+<td class="text-center"><p><strong>Due date</strong></p></td>
+<td class="text-center"><p><strong>Proportion (%)</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>Proposal</p></td>
+<td class="text-center"><p>May 13</p></td>
+<td class="text-center"><p>15</p></td>
+</tr>
+<tr class="row-even"><td><p>Check-up</p></td>
+<td class="text-center"><p>May 30</p></td>
+<td class="text-center"><p>20</p></td>
+</tr>
+<tr class="row-odd"><td><p>Presentation recording</p></td>
+<td class="text-center"><p>Jun 11</p></td>
+<td class="text-center"><p>25</p></td>
+</tr>
+<tr class="row-even"><td><p>Report</p></td>
+<td class="text-center"><p>Jun 11</p></td>
+<td class="text-center"><p>35</p></td>
+</tr>
+<tr class="row-odd"><td><p>Peer experience summary</p></td>
+<td class="text-center"><p>Jun 11</p></td>
+<td class="text-center"><p>10</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Total</strong></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>100</p></td>
 </tr>
 </tbody>
 </table>
 </section>
+<section id="project-proposal">
+<h2>Project proposal<a class="headerlink" href="#project-proposal" title="Link to this heading">#</a></h2>
+<p>Develop a proposal that includes your topic, the selection of relevant dataset(s), and a plan to answer questions of interests.  Keep in mind the timeline of the quarter and set achievable goals.</p>
+<section id="guidelines-for-proposal">
+<h3>Guidelines for proposal<a class="headerlink" href="#guidelines-for-proposal" title="Link to this heading">#</a></h3>
+<p>Review the guidelines below carefully.</p>
+<p>The proposal should follow this format (5 points):</p>
+<ul class="simple">
+<li><p>Include full names of all teammates.</p></li>
+<li><p>Between 1 to 2 pages, single-spaced, 11-point type, 1-inch margins.</p></li>
+<li><p>Do not include graphics.</p></li>
+<li><p>Decide on the name of your group.  A pdf named <code class="docutils literal notranslate"><span class="pre">[GroupName]_proposal.pdf</span></code> should be submitted.</p></li>
+</ul>
+<p>The proposal should cover the following components (but in a narrative format, not Q/A):</p>
+<ul>
+<li><p><strong>Introduction</strong> (12 points): Introduce your project and motivation, e.g.,</p>
+<ul class="simple">
+<li><p>What is the main issue you are interested in?</p></li>
+<li><p>Why is this topic important?</p></li>
+<li><p>In what way does this project provide a solution?</p></li>
+</ul>
+</li>
+<li><p><strong>Data source(s)</strong> (10 points): Describe the data sources you have chosen, e.g.,</p>
+<ul class="simple">
+<li><p>How can the data be retrieved?</p></li>
+<li><p>How are the data related to the topic?</p></li>
+<li><p>State the amount of data you will be working with.</p></li>
+</ul>
+</li>
+<li><p><strong>Goal definitions</strong> (18 points): State two to three goals you are interested in achieving with the selected data sources.<br />
+As you tackle the goals, you should use <strong>at least one</strong> of the data engineering techniques covered in class:</p>
+<ul class="simple">
+<li><p>Missing data imputation</p></li>
+<li><p>Database system (relational or non-relational)</p></li>
+<li><p>Distributed computing framework (e.g., pyspark)<br />
+For each goal, answer the following:</p></li>
+<li><p>How do you intend to achieve your goal?</p></li>
+<li><p>How do you intend to use the above techniques?</p></li>
+<li><p>What can you answer (and not answer) with the proposed datasets?</p></li>
+</ul>
+</li>
+<li><p><strong>Reference</strong> (5 points): Provide valid references for your data source(s). (Reference does not count toward the page limit.)</p>
+<ul>
+<li><p>For example, using APA guidelines, the MIMIC-III database can be cited as</p>
+<blockquote>
+<div><p>Johnson, A., Pollard, T., &amp; Mark, R. (2016). MIMIC-III Clinical Database (version 1.4). <em>PhysioNet</em>. <a class="reference external" href="https://doi.org/10.13026/C2XW26">https://doi.org/10.13026/C2XW26</a>.</p>
+</div></blockquote>
+</li>
+<li><p>or the original article</p>
+<blockquote>
+<div><p>Johnson, A. E., Pollard, T. J., Shen, L., Lehman, L. W. H., Feng, M., Ghassemi, M., … &amp; Mark, R. G. (2016). MIMIC-III, a freely accessible critical care database. <em>Scientific data</em>, 3(1), 1-9.</p>
+</div></blockquote>
+</li>
+</ul>
+</li>
+</ul>
 </section>
-<section id="reference">
-<h2>Reference<a class="headerlink" href="#reference" title="Link to this heading">#</a></h2>
-<p>Chapters 5 and 8 of Fundamentals of Data Engineering (Reis, 2022) are excellent resources on this topic.</p>
+</section>
+<section id="potential-data-sources">
+<h2>Potential data sources<a class="headerlink" href="#potential-data-sources" title="Link to this heading">#</a></h2>
+<p>Below are some possible avenues for finding data sources:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://datasetsearch.research.google.com/">Google dataset search</a></p></li>
+<li><p><a class="reference external" href="https://github.com/awesomedata/awesome-public-datasets">Awesome public datasets</a></p></li>
+<li><p><a class="reference external" href="https://github.com/BuzzFeedNews/everything">BuzzFeed news repository</a></p></li>
+</ul>
 </section>
 </section>
 
@@ -540,20 +555,20 @@ We would like to query for the average maximum income across department.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="04-standard-code-comm.html"
+       href="09a-word-count-schema.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Standard code communications</p>
+        <p class="prev-next-title">Word count example (in pictures)</p>
       </div>
     </a>
     <a class="right-next"
-       href="05b-ex-electronic-medical-record-class.html"
+       href="../homework/homework-schedule.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">(EX) Electronic medical record (as a SQL refresher)</p>
+        <p class="prev-next-title">Homework Schedule (as of April 25, 2025)</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -573,12 +588,13 @@ We would like to query for the average maximum income across department.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-of-data-engineering-scenarios">Examples of data engineering scenarios</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#database-and-query">Database and query</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#income-scenario">Income scenario</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#group-formation">Group formation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#project-grading">Project grading</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#project-proposal">Project proposal</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#guidelines-for-proposal">Guidelines for proposal</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference">Reference</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#potential-data-sources">Potential data sources</a></li>
 </ul>
   </nav></div>
 

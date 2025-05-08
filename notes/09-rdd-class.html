@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Data Modeling &#8212; DATA_ENG 300 Data Engineering Studio</title>
+    <title>Resilient distributed datasets &#8212; DATA_ENG 300 Data Engineering Studio</title>
   
   
   
@@ -57,11 +57,11 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'notes/05-data-modeling';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notes/09-rdd-class';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="(EX) Electronic medical record (as a SQL refresher)" href="05b-ex-electronic-medical-record-class.html" />
-    <link rel="prev" title="Standard code communications" href="04-standard-code-comm.html" />
+    <link rel="next" title="Word count example (in pictures)" href="09a-word-count-schema.html" />
+    <link rel="prev" title="Distributed (cloud) computing" href="08-hadoop-spark.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -190,8 +190,8 @@
 <li class="toctree-l1"><a class="reference internal" href="04-standard-code-comm.html">Standard code communications</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Data modeling</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Data Modeling</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="05-data-modeling.html">Data Modeling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05b-ex-electronic-medical-record-class.html">(EX) Electronic medical record (as a SQL refresher)</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="06-intro-to-nosql.html">Introduction to NoSQL databases</a></li>
@@ -200,9 +200,9 @@
 
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Distributed (cloud) computing</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="08-hadoop-spark.html">Distributed (cloud) computing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="09-rdd-class.html">Resilient distributed datasets</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Resilient distributed datasets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="09a-word-count-schema.html">Word count example (in pictures)</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix</span></p>
@@ -264,7 +264,7 @@
       
       
       
-      <li><a href="https://colab.research.google.com/github/mosesyhc/de300-2025sp-class/blob/gh-pages/_sources/notes/05-data-modeling.ipynb" target="_blank"
+      <li><a href="https://colab.research.google.com/github/mosesyhc/de300-2025sp-class/blob/gh-pages/_sources/notes/09-rdd-class.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch onColab"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -295,7 +295,7 @@
       
       
       
-      <li><a href="../_sources/notes/05-data-modeling.ipynb" target="_blank"
+      <li><a href="../_sources/notes/09-rdd-class.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -379,7 +379,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Data Modeling</h1>
+    <h1>Resilient distributed datasets</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -389,12 +389,14 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-of-data-engineering-scenarios">Examples of data engineering scenarios</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#database-and-query">Database and query</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#income-scenario">Income scenario</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-rdd">What is RDD?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-rdd-if-we-have-dataframes">Why RDD if we have dataframes?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-ingredients-of-rdd-manipulation">Main ingredients of RDD manipulation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#map-through-an-example"><code class="docutils literal notranslate"><span class="pre">map</span></code> through an example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#filter-through-an-example"><code class="docutils literal notranslate"><span class="pre">filter</span></code> through an example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reduce-through-an-example"><code class="docutils literal notranslate"><span class="pre">reduce</span></code> through an example</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference">Reference</a></li>
 </ul>
             </nav>
         </div>
@@ -406,106 +408,184 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="data-modeling">
-<h1>Data Modeling<a class="headerlink" href="#data-modeling" title="Link to this heading">#</a></h1>
-<p>This set of notes introduces concepts of data modeling and the associated tools.</p>
-<blockquote>
-<div><p><em>Data modeling</em> is about how you model the data, or how you perceive the data structure as presented in the real world.</p>
-</div></blockquote>
-<section id="examples-of-data-engineering-scenarios">
-<h2>Examples of data engineering scenarios<a class="headerlink" href="#examples-of-data-engineering-scenarios" title="Link to this heading">#</a></h2>
-<p><em>Online transaction processing (OLTP)</em></p>
+  <section class="tex2jax_ignore mathjax_ignore" id="resilient-distributed-datasets">
+<h1>Resilient distributed datasets<a class="headerlink" href="#resilient-distributed-datasets" title="Link to this heading">#</a></h1>
+<p>Resilient distributed datasets, or <em>RDD</em>s, are the fundamental blocks in PySpark.</p>
+<section id="what-is-rdd">
+<h2>What is RDD?<a class="headerlink" href="#what-is-rdd" title="Link to this heading">#</a></h2>
+<p>RDD is essentially a collection of unordered objects,</p>
 <ul class="simple">
-<li><p>Any transactions, literally</p></li>
-<li><p>e.g., retail, banking, texting</p></li>
-</ul>
-<p><em>Online analytics processing (OLAP)</em></p>
-<ul class="simple">
-<li><p>Interactive analytics <em>queries</em></p></li>
-<li><p>i.e., retrieve and aggregate data for information (or insight)</p></li>
-<li><p>e.g., aircraft inventory analysis</p></li>
-</ul>
-<p><em>Change data capture</em></p>
-<ul class="simple">
-<li><p>Snapshots, differential updates</p></li>
-<li><p>e.g., appointment scheduling</p></li>
+<li><p>or a mathematical <em>set</em>,</p></li>
+<li><p>or a Python list of objects,</p></li>
+<li><p>or similar to a JSON.</p></li>
 </ul>
 <table class="table">
 <thead>
-<tr class="row-odd"><th class="head text-center"><p><img alt="mend-cheps" src="../_images/mend-cheps.png" /></p></th>
+<tr class="row-odd"><th class="head text-right"><p><img src="../img/rdd-idea.png" width="100%"/></p></th>
+<th class="head text-center"><p><img src="../img/math-set.png" width="60%"/></p></th>
+<th class="head text-left"><p><img src="../img/json-ex.png"/></p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-center"><p>Example of average provider availability into the future.</p></td>
+<tr class="row-even"><td class="text-right"><p></p></td>
+<td class="text-center"><p>Fig. Collection of objects</p></td>
+<td class="text-left"><p></p></td>
 </tr>
 </tbody>
 </table>
-<p><em>Logs</em></p>
-<ul class="simple">
-<li><p>binary logs</p></li>
-<li><p>JSON</p></li>
-<li><p>Plain-text</p></li>
-</ul>
-</section>
-<section id="database-and-query">
-<h2>Database and query<a class="headerlink" href="#database-and-query" title="Link to this heading">#</a></h2>
-<p><em>Database</em> refers to a data storage system and a query engine.</p>
-<p><em>Query</em> refers to the avenue to retrieve and act on data.</p>
-<p>Query commands generally include:</p>
-<ul class="simple">
-<li><p>Data Definition Language, e.g., <code class="docutils literal notranslate"><span class="pre">CREATE</span></code>, <code class="docutils literal notranslate"><span class="pre">UPDATE</span></code>, <code class="docutils literal notranslate"><span class="pre">DROP</span></code></p></li>
-</ul>
-<ul class="simple">
-<li><p>Data Manipulation Language, e.g., <code class="docutils literal notranslate"><span class="pre">SELECT</span></code>, <code class="docutils literal notranslate"><span class="pre">INSERT</span></code>, <code class="docutils literal notranslate"><span class="pre">UPDATE</span></code>, <code class="docutils literal notranslate"><span class="pre">DELETE</span></code>, <code class="docutils literal notranslate"><span class="pre">COPY</span></code>, <code class="docutils literal notranslate"><span class="pre">MERGE</span></code></p></li>
-</ul>
-<ul class="simple">
-<li><p>Data Control Language, e.g., <code class="docutils literal notranslate"><span class="pre">GRANT</span></code>, <code class="docutils literal notranslate"><span class="pre">DENY</span></code>, <code class="docutils literal notranslate"><span class="pre">REVOKE</span></code></p></li>
-</ul>
-<ul class="simple">
-<li><p>Transaction Control Language, e.g., <code class="docutils literal notranslate"><span class="pre">COMMIT</span></code>, <code class="docutils literal notranslate"><span class="pre">ROLLBACK</span></code></p></li>
-</ul>
-<p>Several notes about queries:</p>
-<ul class="simple">
-<li><p>Complex queries incur higher computations.</p></li>
-</ul>
-<blockquote>
-<div><p><em>What is the goal?</em> Are we looking for a particular flight? or are we finding the number of flights that are delayed due to weather within date A and date B?</p>
-</div></blockquote>
-<ul class="simple">
-<li><p>Avoid large number of scans when possible.  Prepartitioning or pruning may be beneficial.</p></li>
-</ul>
-<ul class="simple">
-<li><p>Use <code class="docutils literal notranslate"><span class="pre">EXPLAIN</span></code> on a query for analysis.</p></li>
-</ul>
-<ul class="simple">
-<li><p>Use common table expressions, e.g.,</p></li>
-</ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">WITH</span>
-  <span class="n">cte1</span> <span class="n">AS</span> <span class="p">(</span><span class="n">SELECT</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="n">FROM</span> <span class="n">table1</span><span class="p">),</span>
-  <span class="n">cte2</span> <span class="n">AS</span> <span class="p">(</span><span class="n">SELECT</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span> <span class="n">FROM</span> <span class="n">table2</span><span class="p">)</span>
-<span class="n">SELECT</span> <span class="n">b</span><span class="p">,</span> <span class="n">d</span> <span class="n">FROM</span> <span class="n">cte1</span> <span class="n">JOIN</span> <span class="n">cte2</span>
-<span class="n">WHERE</span> <span class="n">cte1</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">cte2</span><span class="o">.</span><span class="n">c</span><span class="p">;</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># !pip install pyspark</span>
 </pre></div>
 </div>
-<section id="income-scenario">
-<h3>Income scenario<a class="headerlink" href="#income-scenario" title="Link to this heading">#</a></h3>
-<p>Say we have a table called <code class="docutils literal notranslate"><span class="pre">information</span></code>, with two columns <code class="docutils literal notranslate"><span class="pre">department</span></code> and <code class="docutils literal notranslate"><span class="pre">salary</span></code>.<br />
-We would like to query for the average maximum income across department.</p>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># set up an RDD</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># view an RDD</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="why-rdd-if-we-have-dataframes">
+<h2>Why RDD if we have dataframes?<a class="headerlink" href="#why-rdd-if-we-have-dataframes" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>If the data at hand are more <em>freeformed</em>, using an RDD allows for storage of various types of objects.</p></li>
+<li><p>Compared to dataframe, which will <em>attempt</em> (and fail) to find a common denominator to fit the data above.</p></li>
+</ul>
+</section>
+<section id="main-ingredients-of-rdd-manipulation">
+<h2>Main ingredients of RDD manipulation<a class="headerlink" href="#main-ingredients-of-rdd-manipulation" title="Link to this heading">#</a></h2>
+<p>We cover three main building blocks for using RDDs, inheriting the concept of a MapReduce scheme.</p>
+<p>Each of the following building blocks (<em>functions</em>) takes a functional input:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">map()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">filter()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reduce()</span></code></p></li>
+</ul>
+<section id="map-through-an-example">
+<h3><code class="docutils literal notranslate"><span class="pre">map</span></code> through an example<a class="headerlink" href="#map-through-an-example" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">map()</span></code> applies the given function to each element of the RDD.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># simple mapping function</span>
+</pre></div>
+</div>
+</div>
+</div>
 <table class="table">
 <thead>
-<tr class="row-odd"><th class="head text-center"><p><img alt="cte-express" src="../_images/cte-expression.jpg" /></p></th>
+<tr class="row-odd"><th class="head text-center"><p><img alt="rdd-map" src="../_images/rdd-map.png" /></p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-center"><p>Example of a CTE usage</p></td>
+<tr class="row-even"><td class="text-center"><p>Applying <code class="docutils literal notranslate"><span class="pre">add_one()</span></code> to each element of RDD through <code class="docutils literal notranslate"><span class="pre">map()</span></code> (Fig 8.2 in Rioux, 2022).</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Quick note:</strong></p>
+<ul class="simple">
+<li><p>Why did the line throw an error?</p></li>
+<li><p>When was the error thrown?</p></li>
+</ul>
+<p><strong>A potential fix:</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">safer_add_one</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">pass</span> <span class="c1"># ...</span>
+<span class="c1"># collection_rdd_p1_again = collection_rdd.map(safer_add_one)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Lesson here</strong>:</p>
+<ul class="simple">
+<li><p>PySpark does not warn you about the content of the RDD.</p></li>
+<li><p>As the developer, we are responsible for how to deal with the data given to an RDD.</p></li>
+</ul>
+</section>
+<section id="filter-through-an-example">
+<h3><code class="docutils literal notranslate"><span class="pre">filter</span></code> through an example<a class="headerlink" href="#filter-through-an-example" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">filter()</span></code> takes a function that returns <code class="docutils literal notranslate"><span class="pre">True</span></code>/<code class="docutils literal notranslate"><span class="pre">False</span></code> based on any conditions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># writing a filtering example</span>
+</pre></div>
+</div>
+</div>
+</div>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p><img alt="rdd-filter" src="../_images/rdd-filter.png" /></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>Applying <code class="docutils literal notranslate"><span class="pre">filter()</span></code> to the RDD (Fig 8.3 in Rioux, 2022).</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>A word about <code class="docutils literal notranslate"><span class="pre">lambda</span></code> function</strong></p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p><img alt="rdd-lambda" src="../_images/rdd-lambda.png" /></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>The use of <code class="docutils literal notranslate"><span class="pre">lambda</span></code> function (Rioux, 2022).</p></td>
 </tr>
 </tbody>
 </table>
 </section>
+<section id="reduce-through-an-example">
+<h3><code class="docutils literal notranslate"><span class="pre">reduce</span></code> through an example<a class="headerlink" href="#reduce-through-an-example" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">reduce()</span></code> summarizes the RDD by sequentially applying the given function.</p>
+<ul class="simple">
+<li><p>similar to <code class="docutils literal notranslate"><span class="pre">groupby()</span></code> in a dataframe.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># create a new RDD</span>
+
+<span class="c1"># example using reduce</span>
+</pre></div>
+</div>
+</div>
+</div>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p><img alt="rdd-reduce" src="../_images/rdd-reduce.png" /></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>Applying <code class="docutils literal notranslate"><span class="pre">add</span></code> through <code class="docutils literal notranslate"><span class="pre">reduce()</span></code> to the RDD (Fig 8.4 in Rioux, 2022).</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Warnings about <code class="docutils literal notranslate"><span class="pre">reduce()</span></code></strong></p>
+<ul class="simple">
+<li><p>What functions are reasonable for <code class="docutils literal notranslate"><span class="pre">reduce()</span></code>?</p></li>
+<li><p><em>commutative operation</em></p></li>
+<li><p><em>associative operation</em></p></li>
+</ul>
+<p><strong>Additional Note:</strong></p>
+<p>A dataframe is actually an RDD, e.g.,</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Dataframe creation</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
-<section id="reference">
-<h2>Reference<a class="headerlink" href="#reference" title="Link to this heading">#</a></h2>
-<p>Chapters 5 and 8 of Fundamentals of Data Engineering (Reis, 2022) are excellent resources on this topic.</p>
 </section>
 </section>
 
@@ -540,20 +620,20 @@ We would like to query for the average maximum income across department.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="04-standard-code-comm.html"
+       href="08-hadoop-spark.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Standard code communications</p>
+        <p class="prev-next-title">Distributed (cloud) computing</p>
       </div>
     </a>
     <a class="right-next"
-       href="05b-ex-electronic-medical-record-class.html"
+       href="09a-word-count-schema.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">(EX) Electronic medical record (as a SQL refresher)</p>
+        <p class="prev-next-title">Word count example (in pictures)</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -573,12 +653,14 @@ We would like to query for the average maximum income across department.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-of-data-engineering-scenarios">Examples of data engineering scenarios</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#database-and-query">Database and query</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#income-scenario">Income scenario</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-rdd">What is RDD?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-rdd-if-we-have-dataframes">Why RDD if we have dataframes?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-ingredients-of-rdd-manipulation">Main ingredients of RDD manipulation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#map-through-an-example"><code class="docutils literal notranslate"><span class="pre">map</span></code> through an example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#filter-through-an-example"><code class="docutils literal notranslate"><span class="pre">filter</span></code> through an example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reduce-through-an-example"><code class="docutils literal notranslate"><span class="pre">reduce</span></code> through an example</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference">Reference</a></li>
 </ul>
   </nav></div>
 
