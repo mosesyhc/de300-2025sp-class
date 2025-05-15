@@ -1,0 +1,1308 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>(EX) Analyzing an article through PySpark &#8212; DATA_ENG 300 Data Engineering Studio</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notes/09b-article-analysis';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Project Specification" href="a0-project-specification.html" />
+    <link rel="prev" title="Word count example (in pictures)" href="09a-word-count-schema.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-syllabus.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">DATA_ENG 300 Data Engineering Studio</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-syllabus.html">
+                    DATA_ENG 300: Data Engineering Studio
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to data engineering</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01-intro-data-engineering.html">Introduction to Data Engineering</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Exploratory data analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="02-exploratory-data-analysis-class.html">04/08/2025 Week 2</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="03-missing-data-class.html">Handling missing data</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="03b-lastfm.html">Matrix completion via recommendation system example</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Version control, containerization</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="04-standard-code-comm.html">Standard code communications</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data modeling</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="05-data-modeling.html">Data Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05b-ex-electronic-medical-record-class.html">(EX) Electronic medical record (as a SQL refresher)</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="06-intro-to-nosql.html">Introduction to NoSQL databases</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="07-cassandra.html">Wide-column database system (Apache Cassandra)</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Distributed (cloud) computing</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="08-hadoop-spark.html">Distributed (cloud) computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09-rdd-class.html">Resilient distributed datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09a-word-count-schema.html">Word count example (in pictures)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">(EX) Analyzing an article through PySpark</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="a0-project-specification.html">Project Specification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../homework/homework-schedule.html">Homework Schedule (as of April 25, 2025)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../99-references.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/mosesyhc/de300-2025sp-class/blob/gh-pages/_sources/notes/09b-article-analysis.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notes/09b-article-analysis.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>(EX) Analyzing an article through PySpark</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="ex-analyzing-an-article-through-pyspark">
+<h1>(EX) Analyzing an article through PySpark<a class="headerlink" href="#ex-analyzing-an-article-through-pyspark" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;JAVA_HOME&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;C:\Program Files\Java\jdk-11.0.2&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;SPARK_HOME&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;C:\Program Files\Spark\spark-3.5.5-bin-hadoop3&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">findspark</span>
+<span class="n">findspark</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+
+<span class="n">spark</span> <span class="o">=</span> <span class="p">(</span><span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span>
+                     <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&quot;Analyzing an unknown article.&quot;</span><span class="p">)</span>
+                     <span class="o">.</span><span class="n">getOrCreate</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spark</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+            <div>
+                <p><b>SparkSession - in-memory</b></p>
+                
+        <div>
+            <p><b>SparkContext</b></p>
+
+            <p><a href="http://10.105.27.148:4041">Spark UI</a></p>
+
+            <dl>
+              <dt>Version</dt>
+                <dd><code>v3.5.5</code></dd>
+              <dt>Master</dt>
+                <dd><code>local[*]</code></dd>
+              <dt>AppName</dt>
+                <dd><code>Analyzing an unknown article.</code></dd>
+            </dl>
+        </div>
+        
+            </div>
+        </div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sc</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## documentation</span>
+spark.read<span class="o">??</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Red">Type:</span>        property
+<span class=" -Color -Color-Bold -Color-Bold-Red">String form:</span> &lt;property object at 0x00000000204B7600&gt;
+<span class=" -Color -Color-Bold -Color-Bold-Red">Source:</span>     
+<span class=" -Color -Color-Bold -Color-Bold-Red"># spark.read.fget</span>
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">@</span>property
+<span class=" -Color -Color-Bold -Color-Bold-Green">def</span> read<span class=" -Color -Color-Bold -Color-Bold-Yellow">(</span>self<span class=" -Color -Color-Bold -Color-Bold-Yellow">)</span> <span class=" -Color -Color-Bold -Color-Bold-Yellow">-&gt;</span> DataFrameReader<span class=" -Color -Color-Bold -Color-Bold-Yellow">:</span>
+    <span class=" -Color -Color-Bold -Color-Bold-Blue">&quot;&quot;&quot;</span>
+<span class=" -Color -Color-Bold -Color-Bold-Blue">    Returns a :class:`DataFrameReader` that can be used to read data</span>
+<span class=" -Color -Color-Bold -Color-Bold-Blue">    in as a :class:`DataFrame`.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Blue">    .. versionadded:: 2.0.0</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Blue">    .. versionchanged:: 3.4.0</span>
+<span class=" -Color -Color-Bold -Color-Bold-Blue">        Supports Spark Connect.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Blue">    Returns</span>
+<span class=" -Color -Color-Bold -Color-Bold-Blue">    -------</span>
+<span class=" -Color -Color-Bold -Color-Bold-Blue">    :class:`DataFrameReader`</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Blue">    Examples</span>
+<span class=" -Color -Color-Bold -Color-Bold-Blue">    --------</span>
+<span class=" -Color -Color-Bold -Color-Bold-Blue">    &gt;&gt;&gt; spark.read</span>
+<span class=" -Color -Color-Bold -Color-Bold-Blue">    &lt;...DataFrameReader object ...&gt;</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Blue">    Write a DataFrame into a JSON file and read it back.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Blue">    &gt;&gt;&gt; import tempfile</span>
+<span class=" -Color -Color-Bold -Color-Bold-Blue">    &gt;&gt;&gt; with tempfile.TemporaryDirectory() as d:</span>
+<span class=" -Color -Color-Bold -Color-Bold-Blue">    ...     # Write a DataFrame into a JSON file</span>
+<span class=" -Color -Color-Bold -Color-Bold-Blue">    ...     spark.createDataFrame(</span>
+<span class=" -Color -Color-Bold -Color-Bold-Blue">    ...         [{&quot;age&quot;: 100, &quot;name&quot;: &quot;Hyukjin Kwon&quot;}]</span>
+<span class=" -Color -Color-Bold -Color-Bold-Blue">    ...     ).write.mode(&quot;overwrite&quot;).format(&quot;json&quot;).save(d)</span>
+<span class=" -Color -Color-Bold -Color-Bold-Blue">    ...</span>
+<span class=" -Color -Color-Bold -Color-Bold-Blue">    ...     # Read the JSON file as a DataFrame.</span>
+<span class=" -Color -Color-Bold -Color-Bold-Blue">    ...     spark.read.format(&#39;json&#39;).load(d).show()</span>
+<span class=" -Color -Color-Bold -Color-Bold-Blue">    +---+------------+</span>
+<span class=" -Color -Color-Bold -Color-Bold-Blue">    |age|        name|</span>
+<span class=" -Color -Color-Bold -Color-Bold-Blue">    +---+------------+</span>
+<span class=" -Color -Color-Bold -Color-Bold-Blue">    |100|Hyukjin Kwon|</span>
+<span class=" -Color -Color-Bold -Color-Bold-Blue">    +---+------------+</span>
+<span class=" -Color -Color-Bold -Color-Bold-Blue">    &quot;&quot;&quot;</span>
+    <span class=" -Color -Color-Bold -Color-Bold-Green">return</span> DataFrameReader<span class=" -Color -Color-Bold -Color-Bold-Yellow">(</span>self<span class=" -Color -Color-Bold -Color-Bold-Yellow">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">file_path</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;C:\Users\moses\OneDrive - Northwestern University\classes\active\dataeng-300-2025sp\de300-2025sp-notes\notes\dataset\pope.txt&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">article</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">article</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DataFrame[value: string]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">article</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>root
+ |-- value: string (nullable = true)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">article</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">article</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DataFrame[value: string]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">article</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|value                                                                                                                                                                                                                                                                                                                                                                                                        |
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|Pope Leo XIV lays out vision of papacy and identifies AI as a main challenge for humanity                                                                                                                                                                                                                                                                                                                    |
+|By  NICOLE WINFIELD                                                                                                                                                                                                                                                                                                                                                                                          |
+|Updated 6:31 PM CDT, May 10, 2025                                                                                                                                                                                                                                                                                                                                                                            |
+|                                                                                                                                                                                                                                                                                                                                                                                                             |
+|VATICAN CITY (AP) — Pope Leo XIV laid out the vision of his papacy Saturday, identifying artificial intelligence as one of the most critical matters facing humanity and vowing to continue with some of the core priorities of Pope Francis.                                                                                                                                                                |
+|                                                                                                                                                                                                                                                                                                                                                                                                             |
+|But in a sign he was making the papacy very much his own, Leo made his first outing since his election, traveling to a sanctuary south of Rome that is dedicated to the Madonna and is of particular significance to his Augustinian order and his namesake, Pope Leo XIII.                                                                                                                                  |
+|                                                                                                                                                                                                                                                                                                                                                                                                             |
+|Townspeople of Genazzano gathered in the square outside the main church housing the Madre del Buon Consiglio (Mother of Good Counsel) sanctuary as Leo arrived and greeted them. The sanctuary, which is managed by Augustinian friars, has been a place of pilgrimage since the 15th century and the previous Pope Leo elevated it to a minor basilica and expanded the adjacent convent in the early 1900s.|
+|Pope Leo XIV, left, is flanked by Monsignor Leonardo Sapienza, second from left, after his meeting with the College of Cardinals in the New Synod Hall at the Vatican, Saturday, May 10, 2025. (Vatican Media via AP)                                                                                                                                                                                        |
+|                                                                                                                                                                                                                                                                                                                                                                                                             |
+|Pope Leo XIV, left, is flanked by Monsignor Leonardo Sapienza, second from left, after his meeting with the College of Cardinals in the New Synod Hall at the Vatican, Saturday, May 10, 2025. (Vatican Media via AP)                                                                                                                                                                                        |
+|Pope Leo XIV meets the College of Cardinals in the New Synod Hall at the Vatican, Saturday, May 10, 2025. (Vatican Media via AP)                                                                                                                                                                                                                                                                             |
+|                                                                                                                                                                                                                                                                                                                                                                                                             |
+|Pope Leo XIV meets the College of Cardinals in the New Synod Hall at the Vatican, Saturday, May 10, 2025. (Vatican Media via AP)                                                                                                                                                                                                                                                                             |
+|                                                                                                                                                                                                                                                                                                                                                                                                             |
+|After praying in the church, Leo greeted the townspeople and told them they had both a gift and a responsibility in having the Madonna in their midst. He offered a blessing and then got back into the passenger seat of the car, a black Volkswagen. En route back to the Vatican, he stopped to pray at Francis’ tomb at St. Mary Major Basilica.                                                         |
+|Related Stories                                                                                                                                                                                                                                                                                                                                                                                              |
+|Conclave elects Robert Prevost to be Pope, the first American pontiff                                                                                                                                                                                                                                                                                                                                        |
+|Conclave elects Robert Prevost to be Pope, the first American pontiff                                                                                                                                                                                                                                                                                                                                        |
+|Pope Leo XIV celebrates first Mass as Francis&#39; successor                                                                                                                                                                                                                                                                                                                                                     |
+|Pope Leo XIV celebrates first Mass as Francis&#39; successor                                                                                                                                                                                                                                                                                                                                                     |
+|Pope Leo XIV calls for end of war in Ukraine and Gaza                                                                                                                                                                                                                                                                                                                                                        |
+|Pope Leo XIV calls for end of war in Ukraine and Gaza                                                                                                                                                                                                                                                                                                                                                        |
+|                                                                                                                                                                                                                                                                                                                                                                                                             |
+|The after-lunch outing came after Leo presided over his first formal audience, with the cardinals who elected him pope. In it Leo repeatedly cited Francis and the Argentine pope’s own 2013 mission statement, making clear a commitment to making the Catholic Church more inclusive and attentive to the faithful and a church that looks out for the “least and rejected.”                               |
+|                                                                                                                                                                                                                                                                                                                                                                                                             |
+|Leo, the first American pope, told the cardinals that he was fully committed to the reforms of the Second Vatican Council, the 1960s meetings that modernized the church. He identified AI as one of the main issues facing humanity, saying it poses challenges to defending human dignity, justice and labor.                                                                                              |
+|Some signs about the future emerge                                                                                                                                                                                                                                                                                                                                                                           |
+|                                                                                                                                                                                                                                                                                                                                                                                                             |
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+only showing top 30 rows
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">col</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">article</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">article</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+<span class="n">article</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">article</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">])</span>
+<span class="n">article</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">))</span>
+<span class="n">article</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">col</span><span class="p">,</span> <span class="n">split</span>
+
+<span class="n">lines</span> <span class="o">=</span> <span class="n">article</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+    <span class="n">split</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">),</span> <span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">&#39;line&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lines</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>root
+ |-- line: array (nullable = true)
+ |    |-- element: string (containsNull = false)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lines</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|line                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|[Pope, Leo, XIV, lays, out, vision, of, papacy, and, identifies, AI, as, a, main, challenge, for, humanity]                                                                                                                                                                                                                                                                                                                                                                     |
+|[By, , NICOLE, WINFIELD]                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+|[Updated, 6:31, PM, CDT,, May, 10,, 2025]                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+|[]                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+|[VATICAN, CITY, (AP), —, Pope, Leo, XIV, laid, out, the, vision, of, his, papacy, Saturday,, identifying, artificial, intelligence, as, one, of, the, most, critical, matters, facing, humanity, and, vowing, to, continue, with, some, of, the, core, priorities, of, Pope, Francis.]                                                                                                                                                                                          |
+|[]                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+|[But, in, a, sign, he, was, making, the, papacy, very, much, his, own,, Leo, made, his, first, outing, since, his, election,, traveling, to, a, sanctuary, south, of, Rome, that, is, dedicated, to, the, Madonna, and, is, of, particular, significance, to, his, Augustinian, order, and, his, namesake,, Pope, Leo, XIII.]                                                                                                                                                   |
+|[]                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+|[Townspeople, of, Genazzano, gathered, in, the, square, outside, the, main, church, housing, the, Madre, del, Buon, Consiglio, (Mother, of, Good, Counsel), sanctuary, as, Leo, arrived, and, greeted, them., The, sanctuary,, which, is, managed, by, Augustinian, friars,, has, been, a, place, of, pilgrimage, since, the, 15th, century, and, the, previous, Pope, Leo, elevated, it, to, a, minor, basilica, and, expanded, the, adjacent, convent, in, the, early, 1900s.]|
+|[Pope, Leo, XIV,, left,, is, flanked, by, Monsignor, Leonardo, Sapienza,, second, from, left,, after, his, meeting, with, the, College, of, Cardinals, in, the, New, Synod, Hall, at, the, Vatican,, Saturday,, May, 10,, 2025., (Vatican, Media, via, AP)]                                                                                                                                                                                                                     |
+|[]                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+|[Pope, Leo, XIV,, left,, is, flanked, by, Monsignor, Leonardo, Sapienza,, second, from, left,, after, his, meeting, with, the, College, of, Cardinals, in, the, New, Synod, Hall, at, the, Vatican,, Saturday,, May, 10,, 2025., (Vatican, Media, via, AP)]                                                                                                                                                                                                                     |
+|[Pope, Leo, XIV, meets, the, College, of, Cardinals, in, the, New, Synod, Hall, at, the, Vatican,, Saturday,, May, 10,, 2025., (Vatican, Media, via, AP)]                                                                                                                                                                                                                                                                                                                       |
+|[]                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+|[Pope, Leo, XIV, meets, the, College, of, Cardinals, in, the, New, Synod, Hall, at, the, Vatican,, Saturday,, May, 10,, 2025., (Vatican, Media, via, AP)]                                                                                                                                                                                                                                                                                                                       |
+|[]                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+|[After, praying, in, the, church,, Leo, greeted, the, townspeople, and, told, them, they, had, both, a, gift, and, a, responsibility, in, having, the, Madonna, in, their, midst., He, offered, a, blessing, and, then, got, back, into, the, passenger, seat, of, the, car,, a, black, Volkswagen., En, route, back, to, the, Vatican,, he, stopped, to, pray, at, Francis’, tomb, at, St., Mary, Major, Basilica.]                                                            |
+|[Related, Stories]                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+|[Conclave, elects, Robert, Prevost, to, be, Pope,, the, first, American, pontiff]                                                                                                                                                                                                                                                                                                                                                                                               |
+|[Conclave, elects, Robert, Prevost, to, be, Pope,, the, first, American, pontiff]                                                                                                                                                                                                                                                                                                                                                                                               |
+|[Pope, Leo, XIV, celebrates, first, Mass, as, Francis&#39;, successor]                                                                                                                                                                                                                                                                                                                                                                                                              |
+|[Pope, Leo, XIV, celebrates, first, Mass, as, Francis&#39;, successor]                                                                                                                                                                                                                                                                                                                                                                                                              |
+|[Pope, Leo, XIV, calls, for, end, of, war, in, Ukraine, and, Gaza]                                                                                                                                                                                                                                                                                                                                                                                                              |
+|[Pope, Leo, XIV, calls, for, end, of, war, in, Ukraine, and, Gaza]                                                                                                                                                                                                                                                                                                                                                                                                              |
+|[]                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+|[The, after-lunch, outing, came, after, Leo, presided, over, his, first, formal, audience,, with, the, cardinals, who, elected, him, pope., In, it, Leo, repeatedly, cited, Francis, and, the, Argentine, pope’s, own, 2013, mission, statement,, making, clear, a, commitment, to, making, the, Catholic, Church, more, inclusive, and, attentive, to, the, faithful, and, a, church, that, looks, out, for, the, “least, and, rejected.”]                                     |
+|[]                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+|[Leo,, the, first, American, pope,, told, the, cardinals, that, he, was, fully, committed, to, the, reforms, of, the, Second, Vatican, Council,, the, 1960s, meetings, that, modernized, the, church., He, identified, AI, as, one, of, the, main, issues, facing, humanity,, saying, it, poses, challenges, to, defending, human, dignity,, justice, and, labor.]                                                                                                              |
+|[Some, signs, about, the, future, emerge]                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+|[]                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+only showing top 30 rows
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lines</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DataFrame[line: array&lt;string&gt;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">explode</span>
+
+<span class="n">words</span> <span class="o">=</span> <span class="n">lines</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">explode</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;line&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">&#39;word&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">words</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>root
+ |-- word: string (nullable = false)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">lower</span>
+
+<span class="n">words_lower</span> <span class="o">=</span> <span class="n">words</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">lower</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;word&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">&#39;word_lower&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">words_lower</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+----------+
+|word_lower|
++----------+
+|      pope|
+|       leo|
+|       xiv|
+|      lays|
+|       out|
+|    vision|
+|        of|
+|    papacy|
+|       and|
+|identifies|
++----------+
+only showing top 10 rows
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">regexp_extract</span>
+
+<span class="n">words_clean</span> <span class="o">=</span> <span class="n">words_lower</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+    <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;word_lower&quot;</span><span class="p">),</span> <span class="sa">r</span><span class="s2">&quot;(\W+)?([a-z]+)&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;word_clean&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">words_clean</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+----------+
+|word_clean|
++----------+
+|      pope|
+|       leo|
+|       xiv|
+|      lays|
+|       out|
+|    vision|
+|        of|
+|    papacy|
+|       and|
+|identifies|
++----------+
+only showing top 10 rows
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">words_nonull</span> <span class="o">=</span> <span class="n">words_clean</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;word_clean&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+<span class="n">words_nonull</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+------------+
+|  word_clean|
++------------+
+|        pope|
+|         leo|
+|         xiv|
+|        lays|
+|         out|
+|      vision|
+|          of|
+|      papacy|
+|         and|
+|  identifies|
+|          ai|
+|          as|
+|           a|
+|        main|
+|   challenge|
+|         for|
+|    humanity|
+|          by|
+|      nicole|
+|    winfield|
+|     updated|
+|          pm|
+|         cdt|
+|         may|
+|     vatican|
+|        city|
+|          ap|
+|        pope|
+|         leo|
+|         xiv|
+|        laid|
+|         out|
+|         the|
+|      vision|
+|          of|
+|         his|
+|      papacy|
+|    saturday|
+| identifying|
+|  artificial|
+|intelligence|
+|          as|
+|         one|
+|          of|
+|         the|
+|        most|
+|    critical|
+|     matters|
+|      facing|
+|    humanity|
+|         and|
+|      vowing|
+|          to|
+|    continue|
+|        with|
+|        some|
+|          of|
+|         the|
+|        core|
+|  priorities|
+|          of|
+|        pope|
+|     francis|
+|         but|
+|          in|
+|           a|
+|        sign|
+|          he|
+|         was|
+|      making|
+|         the|
+|      papacy|
+|        very|
+|        much|
+|         his|
+|         own|
+|         leo|
+|        made|
+|         his|
+|       first|
+|      outing|
+|       since|
+|         his|
+|    election|
+|   traveling|
+|          to|
+|           a|
+|   sanctuary|
+|       south|
+|          of|
+|        rome|
+|        that|
+|          is|
+|   dedicated|
+|          to|
+|         the|
+|     madonna|
+|         and|
+|          is|
+|          of|
++------------+
+only showing top 100 rows
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">groups</span> <span class="o">=</span> <span class="n">words_nonull</span><span class="o">.</span><span class="n">groupBy</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;word_clean&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">groups</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GroupedData[grouping expressions: [word_clean], value: [word_clean: string], type: GroupBy]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">counts</span> <span class="o">=</span> <span class="n">groups</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">counts</span><span class="o">.</span><span class="n">orderBy</span><span class="p">(</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+----------+-----+
+|word_clean|count|
++----------+-----+
+|       the|  138|
+|        of|   62|
+|        in|   57|
+|       and|   50|
+|        to|   42|
+|       leo|   36|
+|         a|   31|
+|      pope|   30|
+|   vatican|   26|
+|       his|   26|
++----------+-----+
+only showing top 10 rows
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyspark.sql.functions</span> <span class="k">as</span> <span class="nn">F</span>
+
+<span class="n">counts</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+     <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">),</span> <span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">&#39;line&#39;</span><span class="p">))</span>
+     <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">explode</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s1">&#39;line&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">&#39;word&#39;</span><span class="p">))</span>
+     <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">lower</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s1">&#39;word&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">&#39;word&#39;</span><span class="p">))</span>
+     <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">regexp_extract</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s1">&#39;word&#39;</span><span class="p">),</span> <span class="sa">r</span><span class="s2">&quot;(\W+)?([a-z]+)&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">&#39;word&#39;</span><span class="p">))</span>
+     <span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s1">&#39;word&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+     <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;word&#39;</span><span class="p">)</span>
+     <span class="o">.</span><span class="n">count</span><span class="p">()</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">counts</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+------------+-----+
+|        word|count|
++------------+-----+
+|        some|    2|
+|   traveling|    2|
+|         few|    1|
+|    medicare|    1|
+|       vocal|    1|
+|    received|    1|
+|    armangue|    2|
+|conversation|    1|
+|     explain|    1|
+|    hometown|    1|
++------------+-----+
+only showing top 10 rows
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cleaned</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+     <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">),</span> <span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">&#39;line&#39;</span><span class="p">))</span>
+     <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">explode</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s1">&#39;line&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">&#39;word&#39;</span><span class="p">))</span>
+     <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">lower</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s1">&#39;word&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">&#39;word&#39;</span><span class="p">))</span>
+     <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">regexp_extract</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s1">&#39;word&#39;</span><span class="p">),</span> <span class="sa">r</span><span class="s2">&quot;(\W+)?([a-z]+)&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">&#39;word&#39;</span><span class="p">))</span>
+     <span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s1">&#39;word&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cleaned</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>root
+ |-- word: string (nullable = false)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lengths</span> <span class="o">=</span> <span class="n">cleaned</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+    <span class="n">F</span><span class="o">.</span><span class="n">length</span><span class="p">(</span>
+        <span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s1">&#39;word&#39;</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">&#39;length&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lengths</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>root
+ |-- length: integer (nullable = false)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lengths</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+------+
+|length|
++------+
+|     4|
+|     3|
+|     3|
+|     4|
+|     3|
+|     6|
+|     2|
+|     6|
+|     3|
+|    10|
+|     2|
+|     2|
+|     1|
+|     4|
+|     9|
+|     3|
+|     8|
+|     2|
+|     6|
+|     8|
++------+
+only showing top 20 rows
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lengths</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;length&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">orderBy</span><span class="p">(</span><span class="s1">&#39;length&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+------+-----+
+|length|count|
++------+-----+
+|     1|   35|
+|     2|  313|
+|     3|  392|
+|     4|  238|
+|     5|  157|
+|     6|  118|
+|     7|  167|
+|     8|  139|
+|     9|   82|
+|    10|   62|
+|    11|   26|
+|    12|   16|
+|    13|    8|
+|    14|    3|
+|    15|    1|
++------+-----+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cleaned</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+----------+
+|      word|
++----------+
+|      pope|
+|       leo|
+|       xiv|
+|      lays|
+|       out|
+|    vision|
+|        of|
+|    papacy|
+|       and|
+|identifies|
++----------+
+only showing top 10 rows
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">letters</span> <span class="o">=</span> <span class="n">cleaned</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+    <span class="n">F</span><span class="o">.</span><span class="n">explode</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s1">&#39;word&#39;</span><span class="p">),</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">letters</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;col&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">orderBy</span><span class="p">(</span><span class="s1">&#39;col&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">26</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+---+-----+
+|col|count|
++---+-----+
+|  a|  807|
+|  b|   72|
+|  c|  355|
+|  d|  338|
+|  e| 1005|
+|  f|  208|
+|  g|  157|
+|  h|  388|
+|  i|  706|
+|  j|   10|
+|  k|   32|
+|  l|  364|
+|  m|  215|
+|  n|  619|
+|  o|  657|
+|  p|  259|
+|  q|    3|
+|  r|  489|
+|  s|  527|
+|  t|  741|
+|  u|  188|
+|  v|  141|
+|  w|   97|
+|  x|   30|
+|  y|  137|
+|  z|   15|
++---+-----+
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notes"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="09a-word-count-schema.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Word count example (in pictures)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="a0-project-specification.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Project Specification</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Moses Y.-H. Chan
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

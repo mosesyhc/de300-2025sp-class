@@ -14,39 +14,42 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-
-  
-  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
-  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
@@ -64,6 +67,7 @@
     <link rel="prev" title="Distributed (cloud) computing" href="08-hadoop-spark.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -71,31 +75,16 @@
 
   
   
-  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -103,7 +92,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -111,10 +99,15 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
     </header>
   
 
@@ -123,7 +116,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -138,6 +132,8 @@
         <div class="sidebar-primary-item">
 
   
+    
+  
 
 <a class="navbar-brand logo" href="../00-syllabus.html">
   
@@ -151,15 +147,11 @@
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
@@ -204,6 +196,7 @@
 <li class="toctree-l1"><a class="reference internal" href="08-hadoop-spark.html">Distributed (cloud) computing</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Resilient distributed datasets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="09a-word-count-schema.html">Word count example (in pictures)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09b-article-analysis.html">(EX) Analyzing an article through PySpark</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix</span></p>
 <ul class="nav bd-sidenav">
@@ -218,14 +211,19 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
 
@@ -234,14 +232,14 @@
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -266,14 +264,14 @@
       
       <li><a href="https://colab.research.google.com/github/mosesyhc/de300-2025sp-class/blob/gh-pages/_sources/notes/09-rdd-class.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
-   title="Launch onColab"
+   title="Launch on Colab"
    data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
 <span class="btn__icon-container">
   
-    <img src="../_static/images/logo_colab.png">
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
   </span>
 <span class="btn__text-container">Colab</span>
 </a>
@@ -348,27 +346,19 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</label>
+</button>
 </div></div>
       
     </div>
@@ -419,11 +409,11 @@ document.write(`
 <li><p>or a Python list of objects,</p></li>
 <li><p>or similar to a JSON.</p></li>
 </ul>
-<table class="table">
+<div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="head text-right"><p><img src="../img/rdd-idea.png" width="100%"/></p></th>
-<th class="head text-center"><p><img src="../img/math-set.png" width="60%"/></p></th>
-<th class="head text-left"><p><img src="../img/json-ex.png"/></p></th>
+<tr class="row-odd"><th class="head text-right"><p><img alt="rdd-idea" src="../_images/rdd-idea.png" /></p></th>
+<th class="head text-center"><p><img alt="math-set" src="../_images/math-set.png" /></p></th>
+<th class="head text-left"><p><img alt="json-ex" src="../_images/json-ex.png" /></p></th>
 </tr>
 </thead>
 <tbody>
@@ -433,9 +423,20 @@ document.write(`
 </tr>
 </tbody>
 </table>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># !pip install pyspark</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;JAVA_HOME&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;C:\Program Files\Java\jdk-11.0.2&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;SPARK_HOME&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;C:\Program Files\Spark\spark-3.5.5-bin-hadoop3&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">findspark</span>
+<span class="n">findspark</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -444,6 +445,61 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># set up an RDD</span>
 <span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+
+<span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s1">&#39;rddExample&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+
+<span class="n">collection</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;two&quot;</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;four&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">{</span><span class="s2">&quot;five&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">}]</span>
+<span class="n">sc</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span>
+
+<span class="c1"># list promoted to RDD</span>
+<span class="n">collection_rdd</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">(</span><span class="n">collection</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">collection_rdd</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ParallelCollectionRDD[0] at readRDDFromFile at PythonRDD.scala:289
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spark</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+            <div>
+                <p><b>SparkSession - in-memory</b></p>
+                
+        <div>
+            <p><b>SparkContext</b></p>
+
+            <p><a href="http://mosesyhc-X1Yoga:4040">Spark UI</a></p>
+
+            <dl>
+              <dt>Version</dt>
+                <dd><code>v3.5.5</code></dd>
+              <dt>Master</dt>
+                <dd><code>local[*]</code></dd>
+              <dt>AppName</dt>
+                <dd><code>pyspark-shell</code></dd>
+            </dl>
+        </div>
+        
+            </div>
+        </div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">collection_rdd</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1, &#39;two&#39;, 3.0, (&#39;four&#39;, 4), {&#39;five&#39;: 5}]
 </pre></div>
 </div>
 </div>
@@ -451,6 +507,12 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># view an RDD</span>
+<span class="n">collection_rdd</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ParallelCollectionRDD[4] at readRDDFromFile at PythonRDD.scala:289
 </pre></div>
 </div>
 </div>
@@ -478,11 +540,201 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># simple mapping function</span>
+
+<span class="k">def</span> <span class="nf">add_one</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">value</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="n">collection_rdd_p1</span> <span class="o">=</span> <span class="n">collection_rdd</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">add_one</span><span class="p">)</span>  <span class="c1"># think of this as .apply in pandas</span>
 </pre></div>
 </div>
 </div>
 </div>
-<table class="table">
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">collection_rdd_p1</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">Py4JJavaError</span><span class="g g-Whitespace">                             </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">9</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">collection_rdd_p1</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+
+<span class="nn">File C:\Program Files\Spark\spark-3.5.5-bin-hadoop3\python\pyspark\rdd.py:1833,</span> in <span class="ni">RDD.collect</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1831</span> <span class="k">with</span> <span class="n">SCCallSiteSync</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1832</span>     <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctx</span><span class="o">.</span><span class="n">_jvm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="ne">-&gt; </span><span class="mi">1833</span>     <span class="n">sock_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctx</span><span class="o">.</span><span class="n">_jvm</span><span class="o">.</span><span class="n">PythonRDD</span><span class="o">.</span><span class="n">collectAndServe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_jrdd</span><span class="o">.</span><span class="n">rdd</span><span class="p">())</span>
+<span class="g g-Whitespace">   </span><span class="mi">1834</span> <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">_load_from_socket</span><span class="p">(</span><span class="n">sock_info</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jrdd_deserializer</span><span class="p">))</span>
+
+<span class="nn">File C:\Program Files\Spark\spark-3.5.5-bin-hadoop3\python\lib\py4j-0.10.9.7-src.zip\py4j\java_gateway.py:1322,</span> in <span class="ni">JavaMember.__call__</span><span class="nt">(self, *args)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1316</span> <span class="n">command</span> <span class="o">=</span> <span class="n">proto</span><span class="o">.</span><span class="n">CALL_COMMAND_NAME</span> <span class="o">+</span>\
+<span class="g g-Whitespace">   </span><span class="mi">1317</span>     <span class="bp">self</span><span class="o">.</span><span class="n">command_header</span> <span class="o">+</span>\
+<span class="g g-Whitespace">   </span><span class="mi">1318</span>     <span class="n">args_command</span> <span class="o">+</span>\
+<span class="g g-Whitespace">   </span><span class="mi">1319</span>     <span class="n">proto</span><span class="o">.</span><span class="n">END_COMMAND_PART</span>
+<span class="g g-Whitespace">   </span><span class="mi">1321</span> <span class="n">answer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gateway_client</span><span class="o">.</span><span class="n">send_command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1322</span> <span class="n">return_value</span> <span class="o">=</span> <span class="n">get_return_value</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1323</span>     <span class="n">answer</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gateway_client</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1325</span> <span class="k">for</span> <span class="n">temp_arg</span> <span class="ow">in</span> <span class="n">temp_args</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1326</span>     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">temp_arg</span><span class="p">,</span> <span class="s2">&quot;_detach&quot;</span><span class="p">):</span>
+
+<span class="nn">File C:\Program Files\Spark\spark-3.5.5-bin-hadoop3\python\pyspark\errors\exceptions\captured.py:179,</span> in <span class="ni">capture_sql_exception.&lt;locals&gt;.deco</span><span class="nt">(*a, **kw)</span>
+<span class="g g-Whitespace">    </span><span class="mi">177</span> <span class="k">def</span> <span class="nf">deco</span><span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">178</span>     <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">179</span>         <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">180</span>     <span class="k">except</span> <span class="n">Py4JJavaError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">181</span>         <span class="n">converted</span> <span class="o">=</span> <span class="n">convert_exception</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">java_exception</span><span class="p">)</span>
+
+<span class="nn">File C:\Program Files\Spark\spark-3.5.5-bin-hadoop3\python\lib\py4j-0.10.9.7-src.zip\py4j\protocol.py:326,</span> in <span class="ni">get_return_value</span><span class="nt">(answer, gateway_client, target_id, name)</span>
+<span class="g g-Whitespace">    </span><span class="mi">324</span> <span class="n">value</span> <span class="o">=</span> <span class="n">OUTPUT_CONVERTER</span><span class="p">[</span><span class="nb">type</span><span class="p">](</span><span class="n">answer</span><span class="p">[</span><span class="mi">2</span><span class="p">:],</span> <span class="n">gateway_client</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">325</span> <span class="k">if</span> <span class="n">answer</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">REFERENCE_TYPE</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">326</span>     <span class="k">raise</span> <span class="n">Py4JJavaError</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">327</span>         <span class="s2">&quot;An error occurred while calling </span><span class="si">{0}{1}{2}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span>
+<span class="g g-Whitespace">    </span><span class="mi">328</span>         <span class="nb">format</span><span class="p">(</span><span class="n">target_id</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span> <span class="n">value</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">329</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">330</span>     <span class="k">raise</span> <span class="n">Py4JError</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">331</span>         <span class="s2">&quot;An error occurred while calling </span><span class="si">{0}{1}{2}</span><span class="s2">. Trace:</span><span class="se">\n</span><span class="si">{3}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span>
+<span class="g g-Whitespace">    </span><span class="mi">332</span>         <span class="nb">format</span><span class="p">(</span><span class="n">target_id</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+
+<span class="ne">Py4JJavaError</span>: An error occurred while calling z:org.apache.spark.api.python.PythonRDD.collectAndServe.
+<span class="p">:</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">SparkException</span><span class="p">:</span> <span class="n">Job</span> <span class="n">aborted</span> <span class="n">due</span> <span class="n">to</span> <span class="n">stage</span> <span class="n">failure</span><span class="p">:</span> <span class="n">Task</span> <span class="mi">9</span> <span class="ow">in</span> <span class="n">stage</span> <span class="mf">0.0</span> <span class="n">failed</span> <span class="mi">1</span> <span class="n">times</span><span class="p">,</span> <span class="n">most</span> <span class="n">recent</span> <span class="n">failure</span><span class="p">:</span> <span class="n">Lost</span> <span class="n">task</span> <span class="mf">9.0</span> <span class="ow">in</span> <span class="n">stage</span> <span class="mf">0.0</span> <span class="p">(</span><span class="n">TID</span> <span class="mi">9</span><span class="p">)</span> <span class="p">(</span><span class="n">mosesyhc</span><span class="o">-</span><span class="n">X1Yoga</span> <span class="n">executor</span> <span class="n">driver</span><span class="p">):</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">PythonException</span><span class="p">:</span> <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+  <span class="n">File</span> <span class="s2">&quot;C:\Program Files\Spark\spark-3.5.5-bin-hadoop3\python\lib\pyspark.zip\pyspark\worker.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1247</span><span class="p">,</span> <span class="ow">in</span> <span class="n">main</span>
+  <span class="n">File</span> <span class="s2">&quot;C:\Program Files\Spark\spark-3.5.5-bin-hadoop3\python\lib\pyspark.zip\pyspark\worker.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1239</span><span class="p">,</span> <span class="ow">in</span> <span class="n">process</span>
+  <span class="n">File</span> <span class="s2">&quot;C:\Program Files\Spark\spark-3.5.5-bin-hadoop3\python\lib\pyspark.zip\pyspark\serializers.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">274</span><span class="p">,</span> <span class="ow">in</span> <span class="n">dump_stream</span>
+    <span class="n">vs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">islice</span><span class="p">(</span><span class="n">iterator</span><span class="p">,</span> <span class="n">batch</span><span class="p">))</span>
+         <span class="o">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+  <span class="n">File</span> <span class="s2">&quot;C:\Program Files\Spark\spark-3.5.5-bin-hadoop3\python\lib\pyspark.zip\pyspark\util.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">83</span><span class="p">,</span> <span class="ow">in</span> <span class="n">wrapper</span>
+    <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+           <span class="o">^^^^^^^^^^^^^^^^^^</span>
+  <span class="n">File</span> <span class="s2">&quot;C:\Users\moses\AppData\Local\Temp\ipykernel_13528</span><span class="se">\37</span><span class="s2">95280211.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">4</span><span class="p">,</span> <span class="ow">in</span> <span class="n">add_one</span>
+<span class="ne">TypeError</span>: can only concatenate tuple (not &quot;int&quot;) to tuple
+
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">BasePythonRunner</span><span class="err">$</span><span class="n">ReaderIterator</span><span class="o">.</span><span class="n">handlePythonException</span><span class="p">(</span><span class="n">PythonRunner</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">572</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">PythonRunner</span><span class="err">$$</span><span class="n">anon</span><span class="err">$</span><span class="mf">3.</span><span class="n">read</span><span class="p">(</span><span class="n">PythonRunner</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">784</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">PythonRunner</span><span class="err">$$</span><span class="n">anon</span><span class="err">$</span><span class="mf">3.</span><span class="n">read</span><span class="p">(</span><span class="n">PythonRunner</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">766</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">BasePythonRunner</span><span class="err">$</span><span class="n">ReaderIterator</span><span class="o">.</span><span class="n">hasNext</span><span class="p">(</span><span class="n">PythonRunner</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">525</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">InterruptibleIterator</span><span class="o">.</span><span class="n">hasNext</span><span class="p">(</span><span class="n">InterruptibleIterator</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">37</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">scala</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">Iterator</span><span class="o">.</span><span class="n">foreach</span><span class="p">(</span><span class="n">Iterator</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">943</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">scala</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">Iterator</span><span class="o">.</span><span class="n">foreach</span><span class="err">$</span><span class="p">(</span><span class="n">Iterator</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">943</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">InterruptibleIterator</span><span class="o">.</span><span class="n">foreach</span><span class="p">(</span><span class="n">InterruptibleIterator</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">28</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">scala</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">generic</span><span class="o">.</span><span class="n">Growable</span><span class="o">.</span><span class="err">$</span><span class="n">plus</span><span class="err">$</span><span class="n">plus</span><span class="err">$</span><span class="n">eq</span><span class="p">(</span><span class="n">Growable</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">62</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">scala</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">generic</span><span class="o">.</span><span class="n">Growable</span><span class="o">.</span><span class="err">$</span><span class="n">plus</span><span class="err">$</span><span class="n">plus</span><span class="err">$</span><span class="n">eq</span><span class="err">$</span><span class="p">(</span><span class="n">Growable</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">53</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">scala</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">mutable</span><span class="o">.</span><span class="n">ArrayBuffer</span><span class="o">.</span><span class="err">$</span><span class="n">plus</span><span class="err">$</span><span class="n">plus</span><span class="err">$</span><span class="n">eq</span><span class="p">(</span><span class="n">ArrayBuffer</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">105</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">scala</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">mutable</span><span class="o">.</span><span class="n">ArrayBuffer</span><span class="o">.</span><span class="err">$</span><span class="n">plus</span><span class="err">$</span><span class="n">plus</span><span class="err">$</span><span class="n">eq</span><span class="p">(</span><span class="n">ArrayBuffer</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">49</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">scala</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">TraversableOnce</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">TraversableOnce</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">366</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">scala</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">TraversableOnce</span><span class="o">.</span><span class="n">to</span><span class="err">$</span><span class="p">(</span><span class="n">TraversableOnce</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">364</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">InterruptibleIterator</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">InterruptibleIterator</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">28</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">scala</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">TraversableOnce</span><span class="o">.</span><span class="n">toBuffer</span><span class="p">(</span><span class="n">TraversableOnce</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">358</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">scala</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">TraversableOnce</span><span class="o">.</span><span class="n">toBuffer</span><span class="err">$</span><span class="p">(</span><span class="n">TraversableOnce</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">358</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">InterruptibleIterator</span><span class="o">.</span><span class="n">toBuffer</span><span class="p">(</span><span class="n">InterruptibleIterator</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">28</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">scala</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">TraversableOnce</span><span class="o">.</span><span class="n">toArray</span><span class="p">(</span><span class="n">TraversableOnce</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">345</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">scala</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">TraversableOnce</span><span class="o">.</span><span class="n">toArray</span><span class="err">$</span><span class="p">(</span><span class="n">TraversableOnce</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">339</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">InterruptibleIterator</span><span class="o">.</span><span class="n">toArray</span><span class="p">(</span><span class="n">InterruptibleIterator</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">28</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">rdd</span><span class="o">.</span><span class="n">RDD</span><span class="o">.</span><span class="err">$</span><span class="n">anonfun</span><span class="err">$</span><span class="n">collect</span><span class="err">$</span><span class="mi">2</span><span class="p">(</span><span class="n">RDD</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">1049</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">SparkContext</span><span class="o">.</span><span class="err">$</span><span class="n">anonfun</span><span class="err">$</span><span class="n">runJob</span><span class="err">$</span><span class="mi">5</span><span class="p">(</span><span class="n">SparkContext</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">2433</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">ResultTask</span><span class="o">.</span><span class="n">runTask</span><span class="p">(</span><span class="n">ResultTask</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">93</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">TaskContext</span><span class="o">.</span><span class="n">runTaskWithListeners</span><span class="p">(</span><span class="n">TaskContext</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">166</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">Task</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">Task</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">141</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">executor</span><span class="o">.</span><span class="n">Executor</span><span class="err">$</span><span class="n">TaskRunner</span><span class="o">.</span><span class="err">$</span><span class="n">anonfun</span><span class="err">$</span><span class="n">run</span><span class="err">$</span><span class="mi">4</span><span class="p">(</span><span class="n">Executor</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">620</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">SparkErrorUtils</span><span class="o">.</span><span class="n">tryWithSafeFinally</span><span class="p">(</span><span class="n">SparkErrorUtils</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">64</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">SparkErrorUtils</span><span class="o">.</span><span class="n">tryWithSafeFinally</span><span class="err">$</span><span class="p">(</span><span class="n">SparkErrorUtils</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">61</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">Utils</span><span class="err">$</span><span class="o">.</span><span class="n">tryWithSafeFinally</span><span class="p">(</span><span class="n">Utils</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">94</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">executor</span><span class="o">.</span><span class="n">Executor</span><span class="err">$</span><span class="n">TaskRunner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">Executor</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">623</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">base</span><span class="o">/</span><span class="n">java</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">concurrent</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="o">.</span><span class="n">runWorker</span><span class="p">(</span><span class="n">ThreadPoolExecutor</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">1128</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">base</span><span class="o">/</span><span class="n">java</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">concurrent</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="err">$</span><span class="n">Worker</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">ThreadPoolExecutor</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">628</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">base</span><span class="o">/</span><span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">Thread</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">834</span><span class="p">)</span>
+
+<span class="n">Driver</span> <span class="n">stacktrace</span><span class="p">:</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">DAGScheduler</span><span class="o">.</span><span class="n">failJobAndIndependentStages</span><span class="p">(</span><span class="n">DAGScheduler</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">2856</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">DAGScheduler</span><span class="o">.</span><span class="err">$</span><span class="n">anonfun</span><span class="err">$</span><span class="n">abortStage</span><span class="err">$</span><span class="mi">2</span><span class="p">(</span><span class="n">DAGScheduler</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">2792</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">DAGScheduler</span><span class="o">.</span><span class="err">$</span><span class="n">anonfun</span><span class="err">$</span><span class="n">abortStage</span><span class="err">$</span><span class="mi">2</span><span class="err">$</span><span class="n">adapted</span><span class="p">(</span><span class="n">DAGScheduler</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">2791</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">scala</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">mutable</span><span class="o">.</span><span class="n">ResizableArray</span><span class="o">.</span><span class="n">foreach</span><span class="p">(</span><span class="n">ResizableArray</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">62</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">scala</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">mutable</span><span class="o">.</span><span class="n">ResizableArray</span><span class="o">.</span><span class="n">foreach</span><span class="err">$</span><span class="p">(</span><span class="n">ResizableArray</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">55</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">scala</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">mutable</span><span class="o">.</span><span class="n">ArrayBuffer</span><span class="o">.</span><span class="n">foreach</span><span class="p">(</span><span class="n">ArrayBuffer</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">49</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">DAGScheduler</span><span class="o">.</span><span class="n">abortStage</span><span class="p">(</span><span class="n">DAGScheduler</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">2791</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">DAGScheduler</span><span class="o">.</span><span class="err">$</span><span class="n">anonfun</span><span class="err">$</span><span class="n">handleTaskSetFailed</span><span class="err">$</span><span class="mi">1</span><span class="p">(</span><span class="n">DAGScheduler</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">1247</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">DAGScheduler</span><span class="o">.</span><span class="err">$</span><span class="n">anonfun</span><span class="err">$</span><span class="n">handleTaskSetFailed</span><span class="err">$</span><span class="mi">1</span><span class="err">$</span><span class="n">adapted</span><span class="p">(</span><span class="n">DAGScheduler</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">1247</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">scala</span><span class="o">.</span><span class="n">Option</span><span class="o">.</span><span class="n">foreach</span><span class="p">(</span><span class="n">Option</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">407</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">DAGScheduler</span><span class="o">.</span><span class="n">handleTaskSetFailed</span><span class="p">(</span><span class="n">DAGScheduler</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">1247</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">DAGSchedulerEventProcessLoop</span><span class="o">.</span><span class="n">doOnReceive</span><span class="p">(</span><span class="n">DAGScheduler</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">3060</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">DAGSchedulerEventProcessLoop</span><span class="o">.</span><span class="n">onReceive</span><span class="p">(</span><span class="n">DAGScheduler</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">2994</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">DAGSchedulerEventProcessLoop</span><span class="o">.</span><span class="n">onReceive</span><span class="p">(</span><span class="n">DAGScheduler</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">2983</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">EventLoop</span><span class="err">$$</span><span class="n">anon</span><span class="err">$</span><span class="mf">1.</span><span class="n">run</span><span class="p">(</span><span class="n">EventLoop</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">49</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">DAGScheduler</span><span class="o">.</span><span class="n">runJob</span><span class="p">(</span><span class="n">DAGScheduler</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">989</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">SparkContext</span><span class="o">.</span><span class="n">runJob</span><span class="p">(</span><span class="n">SparkContext</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">2393</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">SparkContext</span><span class="o">.</span><span class="n">runJob</span><span class="p">(</span><span class="n">SparkContext</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">2414</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">SparkContext</span><span class="o">.</span><span class="n">runJob</span><span class="p">(</span><span class="n">SparkContext</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">2433</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">SparkContext</span><span class="o">.</span><span class="n">runJob</span><span class="p">(</span><span class="n">SparkContext</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">2458</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">rdd</span><span class="o">.</span><span class="n">RDD</span><span class="o">.</span><span class="err">$</span><span class="n">anonfun</span><span class="err">$</span><span class="n">collect</span><span class="err">$</span><span class="mi">1</span><span class="p">(</span><span class="n">RDD</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">1049</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">rdd</span><span class="o">.</span><span class="n">RDDOperationScope</span><span class="err">$</span><span class="o">.</span><span class="n">withScope</span><span class="p">(</span><span class="n">RDDOperationScope</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">151</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">rdd</span><span class="o">.</span><span class="n">RDDOperationScope</span><span class="err">$</span><span class="o">.</span><span class="n">withScope</span><span class="p">(</span><span class="n">RDDOperationScope</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">112</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">rdd</span><span class="o">.</span><span class="n">RDD</span><span class="o">.</span><span class="n">withScope</span><span class="p">(</span><span class="n">RDD</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">410</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">rdd</span><span class="o">.</span><span class="n">RDD</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="n">RDD</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">1048</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">PythonRDD</span><span class="err">$</span><span class="o">.</span><span class="n">collectAndServe</span><span class="p">(</span><span class="n">PythonRDD</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">195</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">PythonRDD</span><span class="o">.</span><span class="n">collectAndServe</span><span class="p">(</span><span class="n">PythonRDD</span><span class="o">.</span><span class="n">scala</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">base</span><span class="o">/</span><span class="n">jdk</span><span class="o">.</span><span class="n">internal</span><span class="o">.</span><span class="n">reflect</span><span class="o">.</span><span class="n">NativeMethodAccessorImpl</span><span class="o">.</span><span class="n">invoke0</span><span class="p">(</span><span class="n">Native</span> <span class="n">Method</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">base</span><span class="o">/</span><span class="n">jdk</span><span class="o">.</span><span class="n">internal</span><span class="o">.</span><span class="n">reflect</span><span class="o">.</span><span class="n">NativeMethodAccessorImpl</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">NativeMethodAccessorImpl</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">62</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">base</span><span class="o">/</span><span class="n">jdk</span><span class="o">.</span><span class="n">internal</span><span class="o">.</span><span class="n">reflect</span><span class="o">.</span><span class="n">DelegatingMethodAccessorImpl</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">DelegatingMethodAccessorImpl</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">43</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">base</span><span class="o">/</span><span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">reflect</span><span class="o">.</span><span class="n">Method</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">Method</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">566</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">py4j</span><span class="o">.</span><span class="n">reflection</span><span class="o">.</span><span class="n">MethodInvoker</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">MethodInvoker</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">244</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">py4j</span><span class="o">.</span><span class="n">reflection</span><span class="o">.</span><span class="n">ReflectionEngine</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">ReflectionEngine</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">374</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">py4j</span><span class="o">.</span><span class="n">Gateway</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">Gateway</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">282</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">py4j</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">AbstractCommand</span><span class="o">.</span><span class="n">invokeMethod</span><span class="p">(</span><span class="n">AbstractCommand</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">132</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">py4j</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">CallCommand</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">CallCommand</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">79</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">py4j</span><span class="o">.</span><span class="n">ClientServerConnection</span><span class="o">.</span><span class="n">waitForCommands</span><span class="p">(</span><span class="n">ClientServerConnection</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">182</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">py4j</span><span class="o">.</span><span class="n">ClientServerConnection</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">ClientServerConnection</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">106</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">base</span><span class="o">/</span><span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">Thread</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">834</span><span class="p">)</span>
+<span class="n">Caused</span> <span class="n">by</span><span class="p">:</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">PythonException</span><span class="p">:</span> <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+  <span class="n">File</span> <span class="s2">&quot;C:\Program Files\Spark\spark-3.5.5-bin-hadoop3\python\lib\pyspark.zip\pyspark\worker.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1247</span><span class="p">,</span> <span class="ow">in</span> <span class="n">main</span>
+  <span class="n">File</span> <span class="s2">&quot;C:\Program Files\Spark\spark-3.5.5-bin-hadoop3\python\lib\pyspark.zip\pyspark\worker.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1239</span><span class="p">,</span> <span class="ow">in</span> <span class="n">process</span>
+  <span class="n">File</span> <span class="s2">&quot;C:\Program Files\Spark\spark-3.5.5-bin-hadoop3\python\lib\pyspark.zip\pyspark\serializers.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">274</span><span class="p">,</span> <span class="ow">in</span> <span class="n">dump_stream</span>
+    <span class="n">vs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">islice</span><span class="p">(</span><span class="n">iterator</span><span class="p">,</span> <span class="n">batch</span><span class="p">))</span>
+         <span class="o">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+  <span class="n">File</span> <span class="s2">&quot;C:\Program Files\Spark\spark-3.5.5-bin-hadoop3\python\lib\pyspark.zip\pyspark\util.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">83</span><span class="p">,</span> <span class="ow">in</span> <span class="n">wrapper</span>
+    <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+           <span class="o">^^^^^^^^^^^^^^^^^^</span>
+  <span class="n">File</span> <span class="s2">&quot;C:\Users\moses\AppData\Local\Temp\ipykernel_13528</span><span class="se">\37</span><span class="s2">95280211.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">4</span><span class="p">,</span> <span class="ow">in</span> <span class="n">add_one</span>
+<span class="ne">TypeError</span>: can only concatenate tuple (not &quot;int&quot;) to tuple
+
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">BasePythonRunner</span><span class="err">$</span><span class="n">ReaderIterator</span><span class="o">.</span><span class="n">handlePythonException</span><span class="p">(</span><span class="n">PythonRunner</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">572</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">PythonRunner</span><span class="err">$$</span><span class="n">anon</span><span class="err">$</span><span class="mf">3.</span><span class="n">read</span><span class="p">(</span><span class="n">PythonRunner</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">784</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">PythonRunner</span><span class="err">$$</span><span class="n">anon</span><span class="err">$</span><span class="mf">3.</span><span class="n">read</span><span class="p">(</span><span class="n">PythonRunner</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">766</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">BasePythonRunner</span><span class="err">$</span><span class="n">ReaderIterator</span><span class="o">.</span><span class="n">hasNext</span><span class="p">(</span><span class="n">PythonRunner</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">525</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">InterruptibleIterator</span><span class="o">.</span><span class="n">hasNext</span><span class="p">(</span><span class="n">InterruptibleIterator</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">37</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">scala</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">Iterator</span><span class="o">.</span><span class="n">foreach</span><span class="p">(</span><span class="n">Iterator</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">943</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">scala</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">Iterator</span><span class="o">.</span><span class="n">foreach</span><span class="err">$</span><span class="p">(</span><span class="n">Iterator</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">943</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">InterruptibleIterator</span><span class="o">.</span><span class="n">foreach</span><span class="p">(</span><span class="n">InterruptibleIterator</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">28</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">scala</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">generic</span><span class="o">.</span><span class="n">Growable</span><span class="o">.</span><span class="err">$</span><span class="n">plus</span><span class="err">$</span><span class="n">plus</span><span class="err">$</span><span class="n">eq</span><span class="p">(</span><span class="n">Growable</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">62</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">scala</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">generic</span><span class="o">.</span><span class="n">Growable</span><span class="o">.</span><span class="err">$</span><span class="n">plus</span><span class="err">$</span><span class="n">plus</span><span class="err">$</span><span class="n">eq</span><span class="err">$</span><span class="p">(</span><span class="n">Growable</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">53</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">scala</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">mutable</span><span class="o">.</span><span class="n">ArrayBuffer</span><span class="o">.</span><span class="err">$</span><span class="n">plus</span><span class="err">$</span><span class="n">plus</span><span class="err">$</span><span class="n">eq</span><span class="p">(</span><span class="n">ArrayBuffer</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">105</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">scala</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">mutable</span><span class="o">.</span><span class="n">ArrayBuffer</span><span class="o">.</span><span class="err">$</span><span class="n">plus</span><span class="err">$</span><span class="n">plus</span><span class="err">$</span><span class="n">eq</span><span class="p">(</span><span class="n">ArrayBuffer</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">49</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">scala</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">TraversableOnce</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">TraversableOnce</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">366</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">scala</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">TraversableOnce</span><span class="o">.</span><span class="n">to</span><span class="err">$</span><span class="p">(</span><span class="n">TraversableOnce</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">364</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">InterruptibleIterator</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">InterruptibleIterator</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">28</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">scala</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">TraversableOnce</span><span class="o">.</span><span class="n">toBuffer</span><span class="p">(</span><span class="n">TraversableOnce</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">358</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">scala</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">TraversableOnce</span><span class="o">.</span><span class="n">toBuffer</span><span class="err">$</span><span class="p">(</span><span class="n">TraversableOnce</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">358</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">InterruptibleIterator</span><span class="o">.</span><span class="n">toBuffer</span><span class="p">(</span><span class="n">InterruptibleIterator</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">28</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">scala</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">TraversableOnce</span><span class="o">.</span><span class="n">toArray</span><span class="p">(</span><span class="n">TraversableOnce</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">345</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">scala</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">TraversableOnce</span><span class="o">.</span><span class="n">toArray</span><span class="err">$</span><span class="p">(</span><span class="n">TraversableOnce</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">339</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">InterruptibleIterator</span><span class="o">.</span><span class="n">toArray</span><span class="p">(</span><span class="n">InterruptibleIterator</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">28</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">rdd</span><span class="o">.</span><span class="n">RDD</span><span class="o">.</span><span class="err">$</span><span class="n">anonfun</span><span class="err">$</span><span class="n">collect</span><span class="err">$</span><span class="mi">2</span><span class="p">(</span><span class="n">RDD</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">1049</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">SparkContext</span><span class="o">.</span><span class="err">$</span><span class="n">anonfun</span><span class="err">$</span><span class="n">runJob</span><span class="err">$</span><span class="mi">5</span><span class="p">(</span><span class="n">SparkContext</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">2433</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">ResultTask</span><span class="o">.</span><span class="n">runTask</span><span class="p">(</span><span class="n">ResultTask</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">93</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">TaskContext</span><span class="o">.</span><span class="n">runTaskWithListeners</span><span class="p">(</span><span class="n">TaskContext</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">166</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">Task</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">Task</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">141</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">executor</span><span class="o">.</span><span class="n">Executor</span><span class="err">$</span><span class="n">TaskRunner</span><span class="o">.</span><span class="err">$</span><span class="n">anonfun</span><span class="err">$</span><span class="n">run</span><span class="err">$</span><span class="mi">4</span><span class="p">(</span><span class="n">Executor</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">620</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">SparkErrorUtils</span><span class="o">.</span><span class="n">tryWithSafeFinally</span><span class="p">(</span><span class="n">SparkErrorUtils</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">64</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">SparkErrorUtils</span><span class="o">.</span><span class="n">tryWithSafeFinally</span><span class="err">$</span><span class="p">(</span><span class="n">SparkErrorUtils</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">61</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">Utils</span><span class="err">$</span><span class="o">.</span><span class="n">tryWithSafeFinally</span><span class="p">(</span><span class="n">Utils</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">94</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">executor</span><span class="o">.</span><span class="n">Executor</span><span class="err">$</span><span class="n">TaskRunner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">Executor</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">623</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">base</span><span class="o">/</span><span class="n">java</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">concurrent</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="o">.</span><span class="n">runWorker</span><span class="p">(</span><span class="n">ThreadPoolExecutor</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">1128</span><span class="p">)</span>
+	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">base</span><span class="o">/</span><span class="n">java</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">concurrent</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="err">$</span><span class="n">Worker</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">ThreadPoolExecutor</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">628</span><span class="p">)</span>
+	<span class="o">...</span> <span class="mi">1</span> <span class="n">more</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head text-center"><p><img alt="rdd-map" src="../_images/rdd-map.png" /></p></th>
 </tr>
@@ -492,6 +744,7 @@ document.write(`
 </tr>
 </tbody>
 </table>
+</div>
 <p><strong>Quick note:</strong></p>
 <ul class="simple">
 <li><p>Why did the line throw an error?</p></li>
@@ -500,9 +753,28 @@ document.write(`
 <p><strong>A potential fix:</strong></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">safer_add_one</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
-    <span class="k">pass</span> <span class="c1"># ...</span>
-<span class="c1"># collection_rdd_p1_again = collection_rdd.map(safer_add_one)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">py4j.protocol</span> <span class="kn">import</span> <span class="n">Py4JJavaError</span>
+
+<span class="k">def</span> <span class="nf">safer_add_one</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">value</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">value</span>
+    <span class="c1"># pass # ...</span>
+
+<span class="n">collection_rdd_p1_again</span> <span class="o">=</span> <span class="n">collection_rdd</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">safer_add_one</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">collection_rdd_p1_again</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[2, &#39;two&#39;, 4.0, (&#39;four&#39;, 4), {&#39;five&#39;: 5}]
 </pre></div>
 </div>
 </div>
@@ -519,11 +791,27 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># writing a filtering example</span>
+
+<span class="n">collection_rdd_filter</span> <span class="o">=</span> <span class="n">collection_rdd</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">elem</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">elem</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-<table class="table">
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">collection_rdd_filter</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1, 3.0]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head text-center"><p><img alt="rdd-filter" src="../_images/rdd-filter.png" /></p></th>
 </tr>
@@ -533,8 +821,9 @@ document.write(`
 </tr>
 </tbody>
 </table>
+</div>
 <p><strong>A word about <code class="docutils literal notranslate"><span class="pre">lambda</span></code> function</strong></p>
-<table class="table">
+<div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head text-center"><p><img alt="rdd-lambda" src="../_images/rdd-lambda.png" /></p></th>
 </tr>
@@ -544,6 +833,7 @@ document.write(`
 </tr>
 </tbody>
 </table>
+</div>
 </section>
 <section id="reduce-through-an-example">
 <h3><code class="docutils literal notranslate"><span class="pre">reduce</span></code> through an example<a class="headerlink" href="#reduce-through-an-example" title="Link to this heading">#</a></h3>
@@ -555,12 +845,46 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># create a new RDD</span>
 
+<span class="n">rdd2</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mf">9.2134565</span><span class="p">,</span> <span class="mf">5.7</span><span class="p">,</span> <span class="o">-</span><span class="mi">2048</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">add2numbers</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
 <span class="c1"># example using reduce</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">rdd2</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">add2numbers</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-<table class="table">
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rdd3</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">subtract2numbers</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span>
+
+<span class="n">result_add</span> <span class="o">=</span> <span class="n">rdd3</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">add2numbers</span><span class="p">)</span>
+<span class="n">result_subtract</span> <span class="o">=</span> <span class="n">rdd3</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">subtract2numbers</span><span class="p">)</span>  <span class="c1">## pause - don&#39;t do this</span>
+
+<span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">add</span>
+<span class="n">result_add_another_way</span> <span class="o">=</span> <span class="n">rdd3</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">add</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result_add</span><span class="p">,</span> <span class="n">result_subtract</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(25, -23)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head text-center"><p><img alt="rdd-reduce" src="../_images/rdd-reduce.png" /></p></th>
 </tr>
@@ -570,6 +894,7 @@ document.write(`
 </tr>
 </tbody>
 </table>
+</div>
 <p><strong>Warnings about <code class="docutils literal notranslate"><span class="pre">reduce()</span></code></strong></p>
 <ul class="simple">
 <li><p>What functions are reasonable for <code class="docutils literal notranslate"><span class="pre">reduce()</span></code>?</p></li>
@@ -581,6 +906,12 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Dataframe creation</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">]],</span> <span class="n">schema</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;column&#39;</span><span class="p">])</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">rdd</span><span class="p">()</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">rdd</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -616,7 +947,7 @@ document.write(`
               
               
               
-                <footer class="prev-next-footer">
+                <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
     <a class="left-prev"
@@ -644,7 +975,8 @@ document.write(`
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -709,8 +1041,8 @@ By Moses Y.-H. Chan
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>
