@@ -8,45 +8,48 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>PySpark example with linear regression model &#8212; DATA_ENG 300 Data Engineering Studio</title>
+    <title>(EX) PySpark example with linear regression model &#8212; DATA_ENG 300 Data Engineering Studio</title>
   
   
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-
-  
-  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
-  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
@@ -57,8 +60,7 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'notes/10a-linear-regression-example';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -66,6 +68,7 @@
     <link rel="prev" title="(EX) Analyzing an article through PySpark" href="09b-article-analysis.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -73,31 +76,16 @@
 
   
   
-  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -105,7 +93,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -113,10 +100,15 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
     </header>
   
 
@@ -125,7 +117,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -140,6 +133,8 @@
         <div class="sidebar-primary-item">
 
   
+    
+  
 
 <a class="navbar-brand logo" href="../00-syllabus.html">
   
@@ -153,15 +148,11 @@
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
@@ -178,8 +169,7 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Exploratory data analysis</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="02-exploratory-data-analysis-class.html">04/08/2025 Week 2</a></li>
-
+<li class="toctree-l1"><a class="reference internal" href="02-exploratory-data-analysis-class.html">Exploratory Data Analysis</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="03-missing-data-class.html">Handling missing data</a></li>
 
@@ -207,7 +197,7 @@
 <li class="toctree-l1"><a class="reference internal" href="09-rdd-class.html">Resilient distributed datasets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="09a-word-count-schema.html">Word count example (in pictures)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="09b-article-analysis.html">(EX) Analyzing an article through PySpark</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">PySpark example with linear regression model</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">(EX) PySpark example with linear regression model</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix</span></p>
 <ul class="nav bd-sidenav">
@@ -222,14 +212,19 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
 
@@ -238,14 +233,14 @@
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -270,14 +265,14 @@
       
       <li><a href="https://colab.research.google.com/github/mosesyhc/de300-2025sp-class/blob/gh-pages/_sources/notes/10a-linear-regression-example.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
-   title="Launch onColab"
+   title="Launch on Colab"
    data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
 <span class="btn__icon-container">
   
-    <img src="../_static/images/logo_colab.png">
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
   </span>
 <span class="btn__text-container">Colab</span>
 </a>
@@ -352,27 +347,19 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</label>
+</button>
 </div></div>
       
     </div>
@@ -383,7 +370,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>PySpark example with linear regression model</h1>
+    <h1>(EX) PySpark example with linear regression model</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -394,7 +381,15 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-regression-refresher">Linear regression refresher</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diamonds-dataset">Diamonds dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coding-component-with-the-diamonds-dataset-as-an-example">Coding component with the diamonds dataset as an example</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diamonds-dataset">Diamonds dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#map-functions-explained-collecting-necessary-information">Map functions explained - collecting necessary information</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#indexing-keeping-track-of-which-columns-the-values-belong-to">Indexing - keeping track of which columns the values belong to</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#estimation-of-beta">Estimation of $\beta$</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prediction-with-widehat-beta">Prediction with $\widehat{\beta}$</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#user-defined-functions-udf">User-defined functions (UDF)</a></li>
 </ul>
             </nav>
         </div>
@@ -406,30 +401,32 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="pyspark-example-with-linear-regression-model">
-<h1>PySpark example with linear regression model<a class="headerlink" href="#pyspark-example-with-linear-regression-model" title="Link to this heading">#</a></h1>
+  <section id="ex-pyspark-example-with-linear-regression-model">
+<h1>(EX) PySpark example with linear regression model<a class="headerlink" href="#ex-pyspark-example-with-linear-regression-model" title="Link to this heading">#</a></h1>
 <p>This set of notes covers the estimation and prediction with a linear regression model, and the use of PySpark in order to parallelize and scale in computation.  In addition, the notes provide a brief commentary on privacy preserving machine learning models.</p>
 <section id="linear-regression-refresher">
 <h2>Linear regression refresher<a class="headerlink" href="#linear-regression-refresher" title="Link to this heading">#</a></h2>
 <p>To fit a linear regression (without any penalty or regularization) can be done via the least-squares estimation:</p>
-<div class="math notranslate nohighlight">
-\[\min_\beta~\ell(\beta) = \|\mathbf{y} - \mathbf{X} \beta \|_2^2,\]</div>
+<p>$$\min_\beta~\ell(\beta) = |\mathbf{y} - \mathbf{X} \beta |_2^2,$$</p>
 <p>The corresponding analytical solution can be found by setting the partial derivatives to zero:
-$<span class="math notranslate nohighlight">\(\frac{\partial \ell(\beta)}{\partial \beta} \equiv 0 \qquad \Rightarrow \qquad \widehat{\beta} = (\mathbf{X}^\mathsf{T}\mathbf{X})^{-1} \mathbf{X}^\mathsf{T}\mathbf{y}.\)</span>$</p>
+$$\frac{\partial \ell(\beta)}{\partial \beta} \equiv 0 \qquad \Rightarrow \qquad \widehat{\beta} = (\mathbf{X}^\mathsf{T}\mathbf{X})^{-1} \mathbf{X}^\mathsf{T}\mathbf{y}.$$</p>
 <p><em>Why do we need to think about parallelization at all?</em></p>
-<p>Say we have <span class="math notranslate nohighlight">\(n\)</span> data points, i.e. <span class="math notranslate nohighlight">\((\mathbf{x}_i, y_i)_{i=1}^n\)</span>. Take a look at the dimension of the quantities of interest:
-$<span class="math notranslate nohighlight">\(\mathbf{X} \in \mathbb{R}^{n \times (d+1)}, \mathbf{y} \in \mathbb{R}^n.\)</span>$</p>
+<p>Say we have $n$ data points, i.e. $(\mathbf{x}<em>i, y_i)</em>{i=1}^n$. Take a look at the dimension of the quantities of interest:
+$$\mathbf{X} \in \mathbb{R}^{n \times (d+1)}, \mathbf{y} \in \mathbb{R}^n.$$</p>
 <p>The major computations involve three operations:</p>
 <ol class="arabic simple">
-<li><p>Multiplication: <span class="math notranslate nohighlight">\(\mathbf{X}^\mathsf{T}\mathbf{X} = \sum_{i=1}^n \mathbf{x}_i \mathbf{x}_i^\mathsf{T},\)</span></p></li>
-<li><p>Multiplication: <span class="math notranslate nohighlight">\(\mathbf{X}^\mathsf{T}\mathbf{y} = \sum_{i=1}^n \mathbf{x_i} y_i,\)</span></p></li>
-<li><p>Inversion of matrix: <span class="math notranslate nohighlight">\((\mathbf{X}^\mathsf{T}\mathbf{X})^{-1} \mathbf{X}^\mathsf{T}\mathbf{y}.\)</span></p></li>
+<li><p>Multiplication: $\mathbf{X}^\mathsf{T}\mathbf{X} = \sum_{i=1}^n \mathbf{x}_i \mathbf{x}_i^\mathsf{T},$</p></li>
+<li><p>Multiplication: $\mathbf{X}^\mathsf{T}\mathbf{y} = \sum_{i=1}^n \mathbf{x_i} y_i,$</p></li>
+<li><p>Inversion of matrix: $(\mathbf{X}^\mathsf{T}\mathbf{X})^{-1} \mathbf{X}^\mathsf{T}\mathbf{y}.$</p></li>
 </ol>
 <p><em>Rationale:</em></p>
 <ul class="simple">
-<li><p>In the case where <span class="math notranslate nohighlight">\(n\)</span> is extremely large, the multiplication and summation, steps (1) and (2), are slow.</p></li>
-<li><p>Since the inversion of matrix is driven by the size of <span class="math notranslate nohighlight">\(\mathbf{X}^\mathsf{T}\mathbf{X}\)</span>, which is typically a relatively small <span class="math notranslate nohighlight">\((d+1) \times (d+1)\)</span> matrix.  Step (3) is relatively cheap in terms of computation.</p></li>
+<li><p>In the case where $n$ is extremely large, the multiplication and summation, steps (1) and (2), are slow.</p></li>
+<li><p>Since the inversion of matrix is driven by the size of $\mathbf{X}^\mathsf{T}\mathbf{X}$, which is typically a relatively small $(d+1) \times (d+1)$ matrix.  Step (3) is relatively cheap in terms of computation.</p></li>
 </ul>
+</section>
+<section id="coding-component-with-the-diamonds-dataset-as-an-example">
+<h2>Coding component with the diamonds dataset as an example<a class="headerlink" href="#coding-component-with-the-diamonds-dataset-as-an-example" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># You typically do not need this</span>
@@ -444,9 +441,8 @@ $<span class="math notranslate nohighlight">\(\mathbf{X} \in \mathbb{R}^{n \time
 </div>
 </div>
 </div>
-</section>
 <section id="diamonds-dataset">
-<h2>Diamonds dataset<a class="headerlink" href="#diamonds-dataset" title="Link to this heading">#</a></h2>
+<h3>Diamonds dataset<a class="headerlink" href="#diamonds-dataset" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
@@ -462,6 +458,7 @@ $<span class="math notranslate nohighlight">\(\mathbf{X} \in \mathbb{R}^{n \time
 <span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
 <span class="n">sc</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span>
 
+<span class="c1"># reading data</span>
 <span class="n">diamonds</span> <span class="o">=</span> <span class="p">(</span>
     <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;csv&#39;</span><span class="p">)</span>
     <span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">header</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="p">,</span> <span class="n">inferSchema</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="p">)</span>
@@ -478,19 +475,11 @@ $<span class="math notranslate nohighlight">\(\mathbf{X} \in \mathbb{R}^{n \time
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Row(carat=0.23, cut=&#39;Ideal&#39;, color=&#39;E&#39;, clarity=&#39;SI2&#39;, depth=61.5, table=55.0, price=326, x=3.95, y=3.98, z=2.43),
- Row(carat=0.21, cut=&#39;Premium&#39;, color=&#39;E&#39;, clarity=&#39;SI1&#39;, depth=59.8, table=61.0, price=326, x=3.89, y=3.84, z=2.31),
- Row(carat=0.23, cut=&#39;Good&#39;, color=&#39;E&#39;, clarity=&#39;VS1&#39;, depth=56.9, table=65.0, price=327, x=4.05, y=4.07, z=2.31),
- Row(carat=0.29, cut=&#39;Premium&#39;, color=&#39;I&#39;, clarity=&#39;VS2&#39;, depth=62.4, table=58.0, price=334, x=4.2, y=4.23, z=2.63),
- Row(carat=0.31, cut=&#39;Good&#39;, color=&#39;J&#39;, clarity=&#39;SI2&#39;, depth=63.3, table=58.0, price=335, x=4.34, y=4.35, z=2.75)]
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="p">(</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># subsetting dataset for analysis</span>
+<span class="n">df</span> <span class="o">=</span> <span class="p">(</span>
     <span class="n">diamonds</span>
     <span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">diamonds</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1000</span><span class="p">)</span>
     <span class="o">.</span><span class="n">select</span><span class="p">([</span><span class="s1">&#39;cut&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">,</span> <span class="s1">&#39;carat&#39;</span><span class="p">,</span> <span class="s1">&#39;clarity&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">])</span>
@@ -505,20 +494,6 @@ $<span class="math notranslate nohighlight">\(\mathbf{X} \in \mathbb{R}^{n \time
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+---------+-----+-----+-------+-----+
-|      cut|color|carat|clarity|price|
-+---------+-----+-----+-------+-----+
-|    Ideal|    E|  0.7|    SI1| 2757|
-|     Fair|    E| 0.86|    SI2| 2757|
-|    Ideal|    G|  0.7|    VS2| 2757|
-|Very Good|    E| 0.71|    VS2| 2759|
-|Very Good|    G| 0.78|    SI2| 2759|
-+---------+-----+-----+-------+-----+
-only showing top 5 rows
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -529,22 +504,37 @@ only showing top 5 rows
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;cut&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">,</span> <span class="s1">&#39;carat&#39;</span><span class="p">,</span> <span class="s1">&#39;clarity&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># assigning predictors and response</span>
+<span class="n">predictors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;cut&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">,</span> <span class="s1">&#39;carat&#39;</span><span class="p">,</span> <span class="s1">&#39;clarity&#39;</span><span class="p">]</span>
 <span class="n">categorical</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s1">&#39;cut&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">,</span> <span class="s1">&#39;clarity&#39;</span><span class="p">])</span>
+<span class="n">response</span> <span class="o">=</span> <span class="s1">&#39;price&#39;</span>
 </pre></div>
 </div>
 </div>
 </div>
+</section>
+<section id="map-functions-explained-collecting-necessary-information">
+<h3>Map functions explained - collecting necessary information<a class="headerlink" href="#map-functions-explained-collecting-necessary-information" title="Link to this heading">#</a></h3>
+<p>The individual (row) component within the sum can be calculated as:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-c84c1482-dec8-4080-ab73-8438a1696572">
+<span class="eqno">(1)<a class="headerlink" href="#equation-c84c1482-dec8-4080-ab73-8438a1696572" title="Permalink to this equation">#</a></span>\[\begin{align}
+    \mathbf{x}_i \mathbf{x}_i^\mathsf{T} = 
+    \begin{pmatrix} 
+    x_{i1}^2 &amp; x_{i1} x_{i2} &amp; \ldots &amp; x_{i1} x_{id} \\
+    \vdots &amp; \ddots &amp; \ldots &amp; \vdots \\
+    x_{id}x_{i1} &amp; x_{id}x_{i2} &amp; \ldots &amp; x_{id}^2 
+    \end{pmatrix},
+    \qquad 
+    \mathbf{x}_i y_i = 
+    \begin{pmatrix} 
+    x_{i1}y_i \\ x_{i2} y_i \\ \vdots \\ x_{id} y_i
+    \end{pmatrix}.
+\end{align}\]</div>
+<p>To keep track of which value corresponds to each column, the <code class="docutils literal notranslate"><span class="pre">yield</span></code> function keeps a record of the column names as keys.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="s1">&#39;price&#39;</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">xtx_map</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># map functions for step (1) and (2)</span>
+<span class="k">def</span> <span class="nf">xtx_map</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
     <span class="n">row</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">asDict</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">predictors</span><span class="p">:</span>
         <span class="p">(</span><span class="n">ki</span><span class="p">,</span> <span class="n">vi</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">categorical</span> <span class="k">else</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mf">1.0</span><span class="p">)</span>
@@ -568,50 +558,19 @@ only showing top 5 rows
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Row(cut=&#39;Ideal&#39;, color=&#39;E&#39;, carat=0.7, clarity=&#39;SI1&#39;, price=2757)
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># inspecting the result from applying xty_map to one row</span>
+<span class="p">[</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">xty_map</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">xty_map</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[(&#39;cut_Ideal&#39;, 2757.0),
- (&#39;color_E&#39;, 2757.0),
- (&#39;carat&#39;, 1929.8999999999999),
- (&#39;clarity_SI1&#39;, 2757.0)]
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">xtx_map</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[((&#39;cut_Ideal&#39;, &#39;cut_Ideal&#39;), 1.0),
- ((&#39;cut_Ideal&#39;, &#39;color_E&#39;), 1.0),
- ((&#39;cut_Ideal&#39;, &#39;carat&#39;), 0.7),
- ((&#39;cut_Ideal&#39;, &#39;clarity_SI1&#39;), 1.0),
- ((&#39;color_E&#39;, &#39;cut_Ideal&#39;), 1.0),
- ((&#39;color_E&#39;, &#39;color_E&#39;), 1.0),
- ((&#39;color_E&#39;, &#39;carat&#39;), 0.7),
- ((&#39;color_E&#39;, &#39;clarity_SI1&#39;), 1.0),
- ((&#39;carat&#39;, &#39;cut_Ideal&#39;), 0.7),
- ((&#39;carat&#39;, &#39;color_E&#39;), 0.7),
- ((&#39;carat&#39;, &#39;carat&#39;), 0.48999999999999994),
- ((&#39;carat&#39;, &#39;clarity_SI1&#39;), 0.7),
- ((&#39;clarity_SI1&#39;, &#39;cut_Ideal&#39;), 1.0),
- ((&#39;clarity_SI1&#39;, &#39;color_E&#39;), 1.0),
- ((&#39;clarity_SI1&#39;, &#39;carat&#39;), 0.7),
- ((&#39;clarity_SI1&#39;, &#39;clarity_SI1&#39;), 1.0)]
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># inspecting the result from applying xtx_map to one row</span>
+<span class="p">[</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">xtx_map</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
 </pre></div>
 </div>
 </div>
@@ -644,63 +603,17 @@ only showing top 5 rows
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[(&#39;cut_Ideal&#39;, 69491685.0),
- (&#39;color_E&#39;, 27913897.0),
- (&#39;carat&#39;, 259765355.250002),
- (&#39;clarity_SI1&#39;, 50141077.0),
- (&#39;cut_Fair&#39;, 6931384.0),
- (&#39;clarity_SI2&#39;, 45876510.0),
- (&#39;color_G&#39;, 42841867.0),
- (&#39;clarity_VS2&#39;, 45536589.0),
- (&#39;cut_Very Good&#39;, 45996850.0),
- (&#39;cut_Good&#39;, 18558296.0),
- (&#39;color_F&#39;, 33724244.0),
- (&#39;clarity_VS1&#39;, 29642262.0),
- (&#39;cut_Premium&#39;, 60868420.0),
- (&#39;color_H&#39;, 35873113.0),
- (&#39;color_D&#39;, 19990260.0),
- (&#39;color_I&#39;, 26838093.0),
- (&#39;clarity_VVS2&#39;, 15250346.0),
- (&#39;clarity_VVS1&#39;, 8043137.0),
- (&#39;color_J&#39;, 14665161.0),
- (&#39;clarity_I1&#39;, 2860076.0),
- (&#39;clarity_IF&#39;, 4496638.0)]
-</pre></div>
 </div>
-</div>
-</div>
+</section>
+<section id="indexing-keeping-track-of-which-columns-the-values-belong-to">
+<h3>Indexing - keeping track of which columns the values belong to<a class="headerlink" href="#indexing-keeping-track-of-which-columns-the-values-belong-to" title="Link to this heading">#</a></h3>
+<p>Individual calculations from distributed resources will return in <strong>any</strong> order, therefore, calculating the index of each column key is necessary.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">index</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">([</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">xty_data</span><span class="p">],</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xty_data</span><span class="p">))))</span>
 <span class="n">p</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 
 <span class="n">index</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;cut_Ideal&#39;: 0,
- &#39;color_E&#39;: 1,
- &#39;carat&#39;: 2,
- &#39;clarity_SI1&#39;: 3,
- &#39;cut_Fair&#39;: 4,
- &#39;clarity_SI2&#39;: 5,
- &#39;color_G&#39;: 6,
- &#39;clarity_VS2&#39;: 7,
- &#39;cut_Very Good&#39;: 8,
- &#39;cut_Good&#39;: 9,
- &#39;color_F&#39;: 10,
- &#39;clarity_VS1&#39;: 11,
- &#39;cut_Premium&#39;: 12,
- &#39;color_H&#39;: 13,
- &#39;color_D&#39;: 14,
- &#39;color_I&#39;: 15,
- &#39;clarity_VVS2&#39;: 16,
- &#39;clarity_VVS1&#39;: 17,
- &#39;color_J&#39;: 18,
- &#39;clarity_I1&#39;: 19,
- &#39;clarity_IF&#39;: 20}
 </pre></div>
 </div>
 </div>
@@ -727,12 +640,10 @@ only showing top 5 rows
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>((21, 21), (21, 1))
-</pre></div>
 </div>
-</div>
-</div>
+</section>
+<section id="estimation-of-beta">
+<h3>Estimation of $\beta$<a class="headerlink" href="#estimation-of-beta" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">XTX</span><span class="p">,</span> <span class="n">XTY</span><span class="p">)</span>
@@ -742,32 +653,106 @@ only showing top 5 rows
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta</span>  <span class="c1"># beta hat</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[-3135410.6050034 ],
-       [ 4659378.08817701],
-       [    9805.68171107],
-       [-1527908.27694775],
-       [-3136368.13604856],
-       [-1528947.23087084],
-       [ 4658923.0870537 ],
-       [-1527130.54041287],
-       [-3135608.232303  ],
-       [-3135866.36037277],
-       [ 4659253.08401101],
-       [-1526746.38065197],
-       [-3135668.49669144],
-       [ 4658246.93221199],
-       [ 4659592.70335286],
-       [ 4657612.83283337],
-       [-1526110.26492251],
-       [-1525873.9198634 ],
-       [ 4656625.8293952 ],
-       [-1531846.19242137],
-       [-1525319.83283582]])
+</div>
+</section>
+</section>
+<section id="prediction-with-widehat-beta">
+<h2>Prediction with $\widehat{\beta}$<a class="headerlink" href="#prediction-with-widehat-beta" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># digression: some handy shape-conforming functions in numpy</span>
+<span class="n">beta</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">np</span><span class="o">.</span><span class="n">atleast_3d</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## a new row contains a set of predictors</span>
+<span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+    <span class="n">row</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">asDict</span><span class="p">()</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">predictors</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">kj</span><span class="p">,</span> <span class="n">vj</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="k">if</span> <span class="n">j</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">categorical</span> <span class="k">else</span> <span class="p">(</span><span class="n">j</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="n">row</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="mf">1.0</span><span class="p">)</span>
+        <span class="n">pred</span> <span class="o">+=</span> <span class="n">vj</span> <span class="o">*</span> <span class="n">beta</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="n">kj</span><span class="p">],</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">mean</span>
+
+<span class="c1"># calculating error</span>
+<span class="n">rmse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">rdd</span>
+    <span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">response</span><span class="p">],</span> <span class="n">predict</span><span class="p">(</span><span class="n">row</span><span class="p">)))</span>
+    <span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rmse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">rdd</span>
+    <span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">response</span><span class="p">]</span> <span class="o">-</span> <span class="n">predict</span><span class="p">(</span><span class="n">row</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rmse</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="user-defined-functions-udf">
+<h2>User-defined functions (UDF)<a class="headerlink" href="#user-defined-functions-udf" title="Link to this heading">#</a></h2>
+<p>In many scenarios, storing the calculations in a new column of the RDD dataframe is advantageous. In a similar way, the computations are not performed until you try to retrieve the results, e.g. via “collect”.</p>
+<p>User-defined functions allow for a clean way to achieve this purpose.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">udf</span><span class="p">,</span> <span class="n">struct</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="n">FloatType</span>
+
+<span class="n">predict_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">predict</span><span class="p">,</span> <span class="n">FloatType</span><span class="p">())</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;pred&quot;</span><span class="p">,</span> <span class="n">predict_udf</span><span class="p">(</span><span class="n">struct</span><span class="p">(</span><span class="n">predictors</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;resid&quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;pred&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;resid&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">toPandas</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -802,7 +787,7 @@ only showing top 5 rows
               
               
               
-                <footer class="prev-next-footer">
+                <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
     <a class="left-prev"
@@ -830,7 +815,8 @@ only showing top 5 rows
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -840,7 +826,15 @@ only showing top 5 rows
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-regression-refresher">Linear regression refresher</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diamonds-dataset">Diamonds dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coding-component-with-the-diamonds-dataset-as-an-example">Coding component with the diamonds dataset as an example</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diamonds-dataset">Diamonds dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#map-functions-explained-collecting-necessary-information">Map functions explained - collecting necessary information</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#indexing-keeping-track-of-which-columns-the-values-belong-to">Indexing - keeping track of which columns the values belong to</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#estimation-of-beta">Estimation of $\beta$</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prediction-with-widehat-beta">Prediction with $\widehat{\beta}$</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#user-defined-functions-udf">User-defined functions (UDF)</a></li>
 </ul>
   </nav></div>
 
@@ -889,8 +883,8 @@ By Moses Y.-H. Chan
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>
