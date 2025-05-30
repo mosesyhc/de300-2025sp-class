@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Introduction to Data Engineering &#8212; DATA_ENG 300 Data Engineering Studio</title>
+    <title>Presentation reference rubric &#8212; DATA_ENG 300 Data Engineering Studio</title>
   
   
   
@@ -60,11 +60,11 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'notes/01-intro-data-engineering';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notes/a1-presentation-rubric';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Exploratory Data Analysis" href="02-exploratory-data-analysis-class.html" />
-    <link rel="prev" title="DATA_ENG 300: Data Engineering Studio" href="../00-syllabus.html" />
+    <link rel="next" title="Homework Schedule (as of April 25, 2025)" href="../homework/homework-schedule.html" />
+    <link rel="prev" title="Project Specification" href="a0-project-specification.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -163,8 +163,8 @@
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to data engineering</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Introduction to Data Engineering</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01-intro-data-engineering.html">Introduction to Data Engineering</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Exploratory data analysis</span></p>
 <ul class="nav bd-sidenav">
@@ -212,9 +212,9 @@
 
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="a0-project-specification.html">Project Specification</a></li>
-<li class="toctree-l1"><a class="reference internal" href="a1-presentation-rubric.html">Presentation reference rubric</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Presentation reference rubric</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../homework/homework-schedule.html">Homework Schedule (as of April 25, 2025)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../99-references.html">References</a></li>
 </ul>
@@ -276,7 +276,7 @@
       
       
       
-      <li><a href="https://colab.research.google.com/github/mosesyhc/de300-2025sp-class/blob/gh-pages/_sources/notes/01-intro-data-engineering.ipynb" target="_blank"
+      <li><a href="https://colab.research.google.com/github/mosesyhc/de300-2025sp-class/blob/gh-pages/_sources/notes/a1-presentation-rubric.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch on Colab"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -307,7 +307,7 @@
       
       
       
-      <li><a href="../_sources/notes/01-intro-data-engineering.ipynb" target="_blank"
+      <li><a href="../_sources/notes/a1-presentation-rubric.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -370,9 +370,7 @@
 <button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
 </button>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</button>
+
 </div></div>
       
     </div>
@@ -383,20 +381,11 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Introduction to Data Engineering</h1>
+    <h1>Presentation reference rubric</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-engineering-lifecycle">Data Engineering Lifecycle</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparation-for-next-week">Preparation for next week</a></li>
-</ul>
-            </nav>
         </div>
     </div>
 </div>
@@ -406,42 +395,51 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="introduction-to-data-engineering">
-<h1>Introduction to Data Engineering<a class="headerlink" href="#introduction-to-data-engineering" title="Link to this heading">#</a></h1>
-<p>This notebook summarizes the data engineering lifecycle, and emphasizes the components covered in DATA_ENG 300.</p>
-<section id="data-engineering-lifecycle">
-<h2>Data Engineering Lifecycle<a class="headerlink" href="#data-engineering-lifecycle" title="Link to this heading">#</a></h2>
-<p>Reis, J., &amp; Housley, M. (2022) describes the data engineering lifecycle with five main stages:</p>
-<ul class="simple">
-<li><p>Generation</p></li>
-<li><p>Storage</p></li>
-<li><p>Ingestion</p></li>
-<li><p>Transformation</p></li>
-<li><p>Serving data</p></li>
-</ul>
+  <section id="presentation-reference-rubric">
+<h1>Presentation reference rubric<a class="headerlink" href="#presentation-reference-rubric" title="Link to this heading">#</a></h1>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="head text-center"><p><img alt="data-eng-lifecycle" src="../_images/fode_0201.png" /></p></th>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>Thorough Understanding</p></th>
+<th class="head"><p>Good Understanding</p></th>
+<th class="head"><p>Basic Understanding</p></th>
+<th class="head"><p>Poor/No Understanding</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-center"><p>Data engineering lifecycle components (Reis, J., &amp; Housley, M. (2022))</p></td>
+<tr class="row-even"><td><p>Organization</p></td>
+<td><p>Organizational pattern (specific   introduction and conclusion, sequenced material within the body, and   transitions) is clearly and consistently observable and is skillful and makes   the content of the presentation cohesive.</p></td>
+<td><p>Organizational pattern (specific   introduction and conclusion, sequenced material within the body, and   transitions) is clearly and consistently observable within the presentation.</p></td>
+<td><p>Organizational pattern (specific   introduction and conclusion, sequenced material within the body, and   transitions) is intermittently observable within the presentation.</p></td>
+<td><p>Organizational pattern (specific   introduction and conclusion, sequenced material within the body, and   transitions) is not observable within the presentation.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Language</p></td>
+<td><p>Language choices are memorable,   compelling, and enhance the effectiveness of the presentation. Language in   presentation is appropriate to audience.</p></td>
+<td><p>Language choices are thoughtful   and generally support the effectiveness of the presentation. Language in   presentation is appropriate to audience.</p></td>
+<td><p>Language choices are mundane and   commonplace and partially support the effectiveness of the presentation.   Language in presentation is appropriate to audience.</p></td>
+<td><p>Language choices are unclear and   minimally support the effectiveness of the presentation. Language in   presentation is not appropriate to audience.</p></td>
+</tr>
+<tr class="row-even"><td><p>Delivery</p></td>
+<td><p>Delivery techniques (posture,   gesture, eye contact, and vocal expressiveness) make the presentation   compelling, and speaker appears polished and confident.</p></td>
+<td><p>Delivery techniques (posture,   gesture, eye contact, and vocal expressiveness) make the presentation   interesting, and speaker appears comfortable.</p></td>
+<td><p>Delivery techniques (posture,   gesture, eye contact, and vocal expressiveness) make the presentation   understandable, and speaker appears tentative.</p></td>
+<td><p>Delivery techniques (posture,   gesture, eye contact, and vocal expressiveness) detract from the   understandability of the presentation, and speaker appears uncomfortable.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Supporting   Material</p></td>
+<td><p>A variety of types of supporting   materials (explanations, illustrations, statistics) make appropriate   reference to information or analysis that significantly supports the   presentation or establishes the presenter’s credibility/authority on the   topic.</p></td>
+<td><p>Supporting materials   (explanations, illustrations, statistics) make appropriate reference to   information or analysis that generally supports the presentation or   establishes the presenter’s credibility/authority on the topic.</p></td>
+<td><p>Supporting materials   (explanations, illustrations, statistics) make appropriate reference to   information or analysis that partially supports the presentation or   establishes the presenter’s credibility/authority on the topic.</p></td>
+<td><p>Insufficient supporting   materials (explanations, illustrations, statistics) make reference to   information or analysis that minimally supports the presentation or   establishes the presenter’s credibility/authority on the topic.</p></td>
+</tr>
+<tr class="row-even"><td><p>Central   Message</p></td>
+<td><p>Central message is precisely   stated and strongly supported.</p></td>
+<td><p>Central message is clear and   consistent with the supporting material.</p></td>
+<td><p>Central message is basically   understandable but is not memorable.</p></td>
+<td><p>Central message can be deduced,   but is not explicitly stated in the presentation.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-</section>
-<section id="preparation-for-next-week">
-<h2>Preparation for next week<a class="headerlink" href="#preparation-for-next-week" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p>Labs are on Tuesdays 5 - 7PM</p></li>
-<li><p>Familiarize with Github (if you have not, register for an account.)</p></li>
-<li><p>Familiarize with colab / jupyter notebook</p></li>
-</ul>
-</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -475,20 +473,20 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../00-syllabus.html"
+       href="a0-project-specification.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">DATA_ENG 300: Data Engineering Studio</p>
+        <p class="prev-next-title">Project Specification</p>
       </div>
     </a>
     <a class="right-next"
-       href="02-exploratory-data-analysis-class.html"
+       href="../homework/homework-schedule.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Exploratory Data Analysis</p>
+        <p class="prev-next-title">Homework Schedule (as of April 25, 2025)</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -498,23 +496,6 @@
             </div>
             
             
-              
-                <dialog id="pst-secondary-sidebar-modal"></dialog>
-                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-engineering-lifecycle">Data Engineering Lifecycle</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparation-for-next-week">Preparation for next week</a></li>
-</ul>
-  </nav></div>
-
-</div></div>
               
             
           </div>
